@@ -17,6 +17,6 @@
         // например 10 мин на оплату                                              
         // связь с местом
         public int PlaceId { get; set; }
-        public Place Place { get; set; } 
+        public Place Place { get; set; }
     }
 }
