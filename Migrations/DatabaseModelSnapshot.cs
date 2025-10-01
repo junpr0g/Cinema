@@ -56,22 +56,47 @@ namespace Cinema.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("HallId")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("MoovieScreeningId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MovieScreeningId")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HallId");
-
-                    b.HasIndex("MovieScreeningId");
-
                     b.ToTable("Cinemas");
+                });
+
+            modelBuilder.Entity("Cinema.Models.DatabaseClasses.ContactInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CinemaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CinemaId");
+
+                    b.ToTable("ContactInformations");
                 });
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Genre", b =>
@@ -369,23 +394,11 @@ namespace Cinema.Migrations
                     b.ToTable("Viewers");
                 });
 
-            modelBuilder.Entity("Cinema.Models.DatabaseClasses.Cinema", b =>
+            modelBuilder.Entity("Cinema.Models.DatabaseClasses.ContactInformation", b =>
                 {
-                    b.HasOne("Cinema.Models.DatabaseClasses.Hall", "Hall")
-                        .WithMany()
-                        .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cinema.Models.DatabaseClasses.MovieScreening", "MovieScreening")
-                        .WithMany()
-                        .HasForeignKey("MovieScreeningId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hall");
-
-                    b.Navigation("MovieScreening");
+                    b.HasOne("Cinema.Models.DatabaseClasses.Cinema", null)
+                        .WithMany("ContactInformations")
+                        .HasForeignKey("CinemaId");
                 });
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Genre", b =>
@@ -514,6 +527,11 @@ namespace Cinema.Migrations
                     b.Navigation("SeatType");
 
                     b.Navigation("Viewer");
+                });
+
+            modelBuilder.Entity("Cinema.Models.DatabaseClasses.Cinema", b =>
+                {
+                    b.Navigation("ContactInformations");
                 });
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Hall", b =>

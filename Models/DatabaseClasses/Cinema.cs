@@ -3,10 +3,11 @@
     public class Cinema
     {
         public int Id { get; set; }
+
+        public string Name { get; set; }
         public string Adress { get; set; }
-        public int MoovieScreeningId { get; set; }
-        public MovieScreening MovieScreening { get; set; }
-        public int HallId { get; set; }
-        public Hall Hall { get; set; }        
+        public string Description { get; set; }
+        public List<ContactInformation> ContactInformations { get; set; }
+        
     }
 }
