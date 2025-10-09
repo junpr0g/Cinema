@@ -1,13 +1,48 @@
 ﻿@model List<Cinema.Models.DatabaseClasses.MovieRental>
-<div class="container-fluid">
-    <div class="row">
-       @for (int i = 0; i < Model.Count; i++)
+<div class="container py-4">
+    <div class="row g-4">
+        @for (int i = 0; i < Model.Count; i++)
         {
-            <div class="col-4">
-                <div>@Model[i].Movie.Name</div>
-                <div>@Model[i].Movie.Description</div>
-                <div>@Model[i].Movie.Timing</div>
-                <img src="~/images/@Model[i].Movie.PosterPath" />
+            var rental = Model[i];
+            var movie = rental.Movie;
+            var duration = movie.Timing.ToString(@"hh\:mm\:ss");
+            var poster = Url.Content($"~/images/{movie.PosterPath}");
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="position-relative">
+                        <img src="@poster" class="card-img-top img-fluid w-100" alt="@movie.Name poster" />
+                        <span class="position-absolute top-0 start-0 m-2 badge bg-danger rounded-pill">@(movie.AgeLimit?.Value + "+")</span>
+                        <span class="position-absolute bottom-0 end-0 m-2 badge bg-dark bg-opacity-75">@duration</span>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title mb-2 text-truncate" title="@movie.Name">@movie.Name</h5>
+                        <p class="card-text text-muted small mb-2">
+                            Прокат: @rental.RentalStart.ToString("dd.MM.yyyy") — @rental.RentalEnd.ToString("dd.MM.yyyy")
+                        </p>
+                        <div class="mb-2">
+                            @if (movie.Genres != null && movie.Genres.Count > 0)
+                            {
+                                foreach (var g in movie.Genres)
+                                {
+                                    <span class="badge bg-secondary me-1 mb-1">@g.Name</span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="badge bg-light text-dark">Жанр не указан</span>
+                            }
+                        </div>
+                        @* <p class="card-text flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;">
+                            @movie.Description
+                        </p> *@
+                        @* <div class="d-flex gap-2 mt-2">
+                            <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Купить билеты</a>
+                        </div> *@
+                    </div>
+                    @* <div class="card-footer bg-white border-0 pt-0">
+                        <small class="text-muted">Длительность: @duration</small>
+                    </div> *@
+                </div>
             </div>
         }
     </div>
