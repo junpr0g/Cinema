@@ -29,6 +29,7 @@ public partial class Database : DbContext
     public virtual DbSet<SeatType> SeatTypes { get; set; }
     public virtual DbSet<Reserved> Reserveds { get; set; }
     public virtual DbSet<ContactInformation> ContactInformations { get; set; }
+    public virtual DbSet<MovieRental> MovieRentals { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySql("server=localhost;user=root;password=toor;database=cinema", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.43-mysql"));

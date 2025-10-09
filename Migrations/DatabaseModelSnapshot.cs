@@ -175,8 +175,16 @@ namespace Cinema.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("Timing")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PosterPath")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<TimeSpan>("Timing")
+                        .HasColumnType("time(6)");
 
                     b.Property<string>("TrailerPath")
                         .IsRequired()
@@ -187,6 +195,30 @@ namespace Cinema.Migrations
                     b.HasIndex("AgeLimitId");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Cinema.Models.DatabaseClasses.MovieRental", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RentalEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("RentalStart")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MovieRentals");
                 });
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.MovieScreening", b =>
@@ -424,6 +456,17 @@ namespace Cinema.Migrations
                         .IsRequired();
 
                     b.Navigation("AgeLimit");
+                });
+
+            modelBuilder.Entity("Cinema.Models.DatabaseClasses.MovieRental", b =>
+                {
+                    b.HasOne("Cinema.Models.DatabaseClasses.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.MovieScreening", b =>
