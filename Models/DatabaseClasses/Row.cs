@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public int RowNumber { get; set; }
-        public List<Place> Places { get; set; }
+        public virtual List<Place> Places { get; set; }
     }
 }

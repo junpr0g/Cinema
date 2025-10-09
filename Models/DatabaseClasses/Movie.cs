@@ -9,10 +9,10 @@
         public string TrailerPath { get; set; }
         public string PosterPath { get; set; }
         public int AgeLimitId { get; set; }
-        public AgeLimit AgeLimit { get; set; }
+        public virtual AgeLimit AgeLimit { get; set; }
         //public int LocalisationId { get; set; }
-        public List<Localisation> Localisations { get; set; }
+        public virtual List<Localisation> Localisations { get; set; }
         //public int GenreId { get; set; }
-        public List<Genre> Genres { get; set; }
+        public virtual List<Genre> Genres { get; set; }
     }
 }

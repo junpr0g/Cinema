@@ -20,7 +20,7 @@ namespace Cinema.Controllers
             Database db = new Database();
            
 
-            List<MovieRental> MovieRentals = db.MovieRentals.Where(t=>t.RentalEnd>DateTime.Now).Include(t => t.Movie).ToList();
+            List<MovieRental> MovieRentals = db.MovieRentals.Where(t=>t.RentalEnd>DateTime.Now).ToList();
 
             return View(MovieRentals);
         }

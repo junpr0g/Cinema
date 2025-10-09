@@ -7,6 +7,6 @@
         public bool VIP { get; set; }
         public bool Status { get; set; }
         public int SeatTypeId { get; set; }
-        public SeatType SeatType { get; set; }
+        public virtual SeatType SeatType { get; set; }
     }
 }

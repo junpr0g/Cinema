@@ -7,7 +7,7 @@
         public string Name { get; set; }
         public string Adress { get; set; }
         public string Description { get; set; }
-        public List<ContactInformation> ContactInformations { get; set; }
+        public virtual List<ContactInformation> ContactInformations { get; set; }
         
     }
 }
