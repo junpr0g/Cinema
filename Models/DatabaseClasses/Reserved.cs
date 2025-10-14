@@ -18,5 +18,6 @@
         // связь с местом
         public int PlaceId { get; set; }
         public virtual Place Place { get; set; }
+        public bool IsUsed { get; set; }
     }
 }

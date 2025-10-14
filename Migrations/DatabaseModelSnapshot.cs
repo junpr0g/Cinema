@@ -19,6 +19,9 @@ namespace Cinema.Migrations
             modelBuilder
                 .UseCollation("utf8mb4_0900_ai_ci")
                 .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
@@ -132,6 +135,9 @@ namespace Cinema.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -267,9 +273,6 @@ namespace Cinema.Migrations
                     b.Property<int>("SeatTypeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<bool>("VIP")
                         .HasColumnType("tinyint(1)");
 
@@ -295,6 +298,9 @@ namespace Cinema.Migrations
 
                     b.Property<DateTime>("ExpireAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("MovieScreeningId")
                         .HasColumnType("int");
