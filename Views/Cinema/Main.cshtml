@@ -8,7 +8,7 @@
             var duration = movie.Timing.ToString(@"hh\:mm\:ss");
             var poster = Url.Content($"~/images/{movie.PosterPath}");
             <div class="col-12 col-sm-6 col-lg-3">
-                <div class="card h-100 shadow-sm border-0">
+                <a href="~/Cinema/FilmInfo?id=@movie.Id" class="card h-100 shadow-sm border-0 text-black cinema-main-card-a cinema-main-card">
                     <div class="position-relative">
                         <img src="@poster" class="card-img-top img-fluid w-100" alt="@movie.Name poster" />
                         <span class="position-absolute top-0 start-0 m-2 badge bg-danger rounded-pill">@(movie.AgeLimit?.Value + "+")</span>
@@ -32,17 +32,8 @@
                                 <span class="badge bg-light text-dark">Жанр не указан</span>
                             }
                         </div>
-                        @* <p class="card-text flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;">
-                            @movie.Description
-                        </p> *@
-                        @* <div class="d-flex gap-2 mt-2">
-                            <a class="btn btn-outline-secondary btn-sm" href="#" role="button">Купить билеты</a>
-                        </div> *@
                     </div>
-                    @* <div class="card-footer bg-white border-0 pt-0">
-                        <small class="text-muted">Длительность: @duration</small>
-                    </div> *@
-                </div>
+                </a>
             </div>
         }
     </div>

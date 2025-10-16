@@ -8,12 +8,7 @@ using System.Security.Claims;
 namespace Cinema.Controllers
 {
     public class AccountController : Controller
-    {
-        private Database db;
-        public AccountController(Database context)
-        {
-            db = context;
-        }
+    {        
         [HttpGet]
         public IActionResult Login()
         {
@@ -25,6 +20,7 @@ namespace Cinema.Controllers
         {
             if (ModelState.IsValid)
             {
+                Database db = new Database();
                 Viewer viewer = db.Viewers.FirstOrDefault(v => v.Email == model.Email && v.Password == model.Password);
                 if (viewer != null)
                 {
@@ -47,6 +43,7 @@ namespace Cinema.Controllers
         {
             if (ModelState.IsValid)
             {
+                Database db = new Database();
                 Viewer viewer = db.Viewers.FirstOrDefault(u => u.Email == model.Email);
                 if (viewer == null)
                 {
@@ -59,17 +56,17 @@ namespace Cinema.Controllers
                     return RedirectToAction("Main", "Cinema");
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    ModelState.AddModelError("", "Пользователь с таким Email уже существует.");
             }
             return View(model);
         }
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(string UserEmail)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, UserEmail)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

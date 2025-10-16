@@ -15,14 +15,13 @@ namespace Cinema.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
         public IActionResult Main()
         {
             Database db = new Database();       
             List<MovieRental> MovieRentals = db.MovieRentals.Where(t=>t.RentalEnd>DateTime.Now).ToList();
             return View(MovieRentals);
         }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
