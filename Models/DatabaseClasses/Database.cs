@@ -40,6 +40,19 @@ public partial class Database : DbContext
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
+        // Настройка связи многие-ко-многим между Movie и Genre
+        modelBuilder.Entity<Movie>()
+            .HasMany(m => m.Genres)
+            .WithMany(g => g.Movies)
+            .UsingEntity<Dictionary<string, object>>(
+                "MovieGenre", // Имя промежуточной таблицы
+                j => j.HasOne<Genre>().WithMany().HasForeignKey("GenreId"),
+                j => j.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
+                j =>
+                {
+                    j.HasKey("MovieId", "GenreId");
+                    j.ToTable("MovieGenres");
+                });
 
 
         OnModelCreatingPartial(modelBuilder);

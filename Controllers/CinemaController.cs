@@ -32,5 +32,11 @@ namespace Cinema.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult Details(int id)
+        {
+            Database db = new Database();
+            Movie movie = db.Movies.FirstOrDefault(t => t.Id == id);            
+                return View(movie);
+        }
     }
 }

@@ -114,16 +114,11 @@ namespace Cinema.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.ToTable("Genres");
                 });
@@ -432,18 +427,26 @@ namespace Cinema.Migrations
                     b.ToTable("Viewers");
                 });
 
+            modelBuilder.Entity("MovieGenre", b =>
+                {
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MovieId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("MovieGenres", (string)null);
+                });
+
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.ContactInformation", b =>
                 {
                     b.HasOne("Cinema.Models.DatabaseClasses.Cinema", null)
                         .WithMany("ContactInformations")
                         .HasForeignKey("CinemaId");
-                });
-
-            modelBuilder.Entity("Cinema.Models.DatabaseClasses.Genre", b =>
-                {
-                    b.HasOne("Cinema.Models.DatabaseClasses.Movie", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Localisation", b =>
@@ -578,6 +581,21 @@ namespace Cinema.Migrations
                     b.Navigation("Viewer");
                 });
 
+            modelBuilder.Entity("MovieGenre", b =>
+                {
+                    b.HasOne("Cinema.Models.DatabaseClasses.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cinema.Models.DatabaseClasses.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Cinema", b =>
                 {
                     b.Navigation("ContactInformations");
@@ -590,8 +608,6 @@ namespace Cinema.Migrations
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Movie", b =>
                 {
-                    b.Navigation("Genres");
-
                     b.Navigation("Localisations");
                 });
 

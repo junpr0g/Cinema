@@ -13,6 +13,6 @@
         //public int LocalisationId { get; set; }
         public virtual List<Localisation> Localisations { get; set; }
         //public int GenreId { get; set; }
-        public virtual List<Genre> Genres { get; set; }
+        public virtual List<Genre> Genres { get; set; } = new();
     }
 }

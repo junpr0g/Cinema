@@ -1,9 +1,22 @@
 .cinema-main-card-a
 {
-    text-decoration:none;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
+
+.cinema-main-card-a:hover
+{
+    text-decoration: none;
+    transform: translateY(-5px);
+}
+
+.cinema-main-card
+{
+    transition: all 0.3s ease;
+    border: none !important;
+}
+
 .cinema-main-card:hover
 {
-    box-shadow: 10px 5px 5px black !important;
-
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
 }
