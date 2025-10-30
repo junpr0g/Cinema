@@ -3,14 +3,14 @@
     ViewData["Title"] = Model.Name;
 }
 
-<div class="container py-4">
+<div class="container py-4 text-body">
     <div class="row g-4 align-items-start">
 
         <!-- Левая колонка1: постер -->
         <div class="col-12 col-md-4 text-center">
             <img src="~/images/@Model.PosterPath"
                  alt="@Model.Name Poster"
-                 class="img-fluid rounded shadow-sm w-100"
+                 class="img-fluid rounded shadow w-100"
                  style="max-height: 550px; object-fit: cover;">
         </div>
 
@@ -30,7 +30,7 @@
                         title="Трейлер @Model.Name"
                         allowfullscreen
                         allow="autoplay; encrypted-media"
-                        class="rounded shadow-sm border-0"></iframe>
+                        class="rounded shadow border-0"></iframe>
             </div>
                         }           
         </div>
@@ -72,7 +72,7 @@
                                 @foreach (var x in group.OrderBy(t => t.Dt))
                                 {
                                     var timeText = x.Dt.ToString("HH:mm");
-                                    var rowClass = (idx++ % 2 == 0) ? "bg-light" : string.Empty; // чередуем фон
+                                    var rowClass = (idx++ % 2 == 0) ? "bg-body-tertiary" : string.Empty; // чередуем фон и уважаем тему
                                 <li class="list-group-item d-flex justify-content-between align-items-center @rowClass">
                                     <span class="fw-semibold">@timeText</span>
                                     <button class="btn btn-sm btn-primary" onclick="function1('@x.Dt.ToString("o")')">Выбрать</button>
@@ -89,7 +89,7 @@
         <!-- Правая колонка2: информация -->
         <div class="col-12 col-md-8">            
             <!-- Остальная информация -->
-            <div class="mb-2 text-muted">
+            <div class="mb-2 text-body-secondary">
                 <span class="me-3">
                     <i class="bi bi-clock"></i> @Model.Timing.ToString(@"hh\:mm")
                 </span>
