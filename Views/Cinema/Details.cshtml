@@ -33,7 +33,28 @@
                         class="rounded shadow-sm border-0"></iframe>
             </div>
                         }           
+        </div>
 
+
+
+
+
+
+
+
+
+        <!-- Левая колонка2: постер -->
+        <div class="col-12 col-md-4 text-center">
+            @{
+                for (int i = 0; i < ViewBag.Screening.Count; i++)
+                {
+                    <button class="btn btn-info p-1 m-1" onclick="function1('@ViewBag.Screening[i].BeginningTime')"> @ViewBag.Screening[i].BeginningTime </button>
+                }
+            }
+        </div>
+
+        <!-- Правая колонка2: информация -->
+        <div class="col-12 col-md-8">            
             <!-- Остальная информация -->
             <div class="mb-2 text-muted">
                 <span class="me-3">
