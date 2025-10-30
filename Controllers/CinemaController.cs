@@ -35,8 +35,10 @@ namespace Cinema.Controllers
         public IActionResult Details(int id)
         {
             Database db = new Database();
-            Movie movie = db.Movies.FirstOrDefault(t => t.Id == id);            
-                return View(movie);
+            Movie movie = db.Movies.FirstOrDefault(t => t.Id == id);     
+            List<MovieScreening> screening = db.MovieScreenings.Where(t => t.MovieId == id).ToList();
+            ViewBag.Screening = screening;
+            return View(movie);
         }
     }
 }

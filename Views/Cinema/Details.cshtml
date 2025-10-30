@@ -6,7 +6,7 @@
 <div class="container py-4">
     <div class="row g-4 align-items-start">
 
-        <!-- Левая колонка: постер -->
+        <!-- Левая колонка1: постер -->
         <div class="col-12 col-md-4 text-center">
             <img src="~/images/@Model.PosterPath"
                  alt="@Model.Name Poster"
@@ -14,7 +14,7 @@
                  style="max-height: 550px; object-fit: cover;">
         </div>
 
-        <!-- Правая колонка: информация -->
+        <!-- Правая колонка1: информация -->
         <div class="col-12 col-md-8">
 
             <!-- Название -->
@@ -32,7 +32,7 @@
                         allow="autoplay; encrypted-media"
                         class="rounded shadow-sm border-0"></iframe>
             </div>
-                        }
+                        }           
 
             <!-- Остальная информация -->
             <div class="mb-2 text-muted">
@@ -44,9 +44,7 @@
                     <i class="bi bi-person-badge"></i> @Model.AgeLimit?.Value+
                 </span>
             </div>
-
             <hr />
-
             <!-- Жанры -->
             <div class="mb-3">
                 <h5 class="fw-semibold">Жанры:</h5>
@@ -64,7 +62,6 @@
                     <span class="text-muted">Жанры не указаны</span>
                 }
             </div>
-
             <!-- Локализации -->
             <div class="mb-3">
                 <h5 class="fw-semibold">Локализации:</h5>
@@ -82,7 +79,6 @@
                     <span class="text-muted">Нет данных</span>
                 }
             </div>
-
             <!-- Описание -->
             <div class="mt-4">
                 <h5 class="fw-semibold mb-2">Описание:</h5>
