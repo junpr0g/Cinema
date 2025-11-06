@@ -40,5 +40,12 @@ namespace Cinema.Controllers
             ViewBag.Screening = screening;
             return View(movie);
         }
+        [HttpGet]
+        public IActionResult PartialCheckScreeningData(int id) 
+        {
+            Database db = new Database();
+            MovieScreening movieScreening = db.MovieScreenings.FirstOrDefault(t => t.Id == id);
+            return PartialView(movieScreening);          
+        }
     }
 }

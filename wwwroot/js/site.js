@@ -1,5 +1,5 @@
-﻿function function1(date)
+﻿function CheckScreeningData(id)
 {
-    console.log("Дата: " + date);
-    alert("Дата: " + date);
+    console.log("id: " + id);
+    alert("id: " + id);
 }
