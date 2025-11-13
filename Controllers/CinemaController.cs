@@ -45,6 +45,8 @@ namespace Cinema.Controllers
         {
             Database db = new Database();
             MovieScreening movieScreening = db.MovieScreenings.FirstOrDefault(t => t.Id == id);
+            List<Reserved> reserveds = db.Reserveds.Where(t => t.MovieScreeningId == id).ToList();
+            ViewBag.Reserved = reserveds;
             return PartialView(movieScreening);          
         }
     }
