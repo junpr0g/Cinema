@@ -3,6 +3,22 @@
 @{
     List<Reserved> reserveds = ViewBag.Reserved;
     var reservedIds = reserveds.Select(r => r.PlaceId).ToHashSet();
+
+    // Подготовим JS-данные
+    var hallData = Model.Hall.Rows
+        .OrderBy(r => r.RowNumber)
+        .Select(r => new
+        {
+            RowNumber = r.RowNumber,
+            Places = r.Places.OrderBy(p => p.PlaceNumber)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.PlaceNumber,
+                    p.VIP,
+                    IsReserved = reservedIds.Contains(p.Id)
+                })
+        });
 }
 
 <div class="container-fluid text-light">
@@ -16,26 +32,8 @@
         <div class="bg-secondary text-dark fw-bold rounded-pill py-1">ЭКРАН</div>
     </div>
 
-    <div class="hall-layout d-flex flex-column align-items-center gap-2">
-        @foreach (var row in Model.Hall.Rows.OrderBy(r => r.RowNumber))
-        {
-            <div class="row d-flex justify-content-center gap-2">
-                <div class="row-label me-2 fw-bold text-secondary">@row.RowNumber</div>
-
-                @foreach (var place in row.Places.OrderBy(p => p.PlaceNumber))
-                {
-                    bool isReserved = reservedIds.Contains(place.Id);
-                    string bgColor = isReserved ? "bg-secondary" :
-                    place.VIP ? "bg-warning text-dark" :
-                    "bg-success";
-                    <div class="seat rounded-2 @bgColor d-inline-flex justify-content-center align-items-center"
-                         style="width:30px; height:30px; cursor:pointer;"
-                         title="Место @place.PlaceNumber @(isReserved ? "(занято)" : "(свободно)")">
-                        @place.PlaceNumber
-                    </div>
-                }
-            </div>
-        }
+    <div class="d-flex justify-content-center">
+        <canvas id="hallCanvas" width="600" height="400" class="border border-secondary rounded w-100" style="max-width:600px;"></canvas>
     </div>
 
     <hr class="border-secondary mt-4" />
@@ -47,10 +45,126 @@
     </div>
 </div>
 
-<style>
-    .seat:hover {
-        transform: scale(1.15);
-        transition: transform 0.1s ease-in-out;
-        filter: brightness(1.2);
-    }
-</style>
+@section Scripts {
+    <script>
+        const hallData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(hallData));
+
+        const canvas = document.getElementById("hallCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // --- Настройки ---
+        const seatSize = 25;
+        const seatGap = 10;
+        let scale = 1;
+        let offsetX = 0, offsetY = 0;
+        let isDragging = false;
+        let dragStart = {x: 0, y: 0};
+
+        function drawHall() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(scale, scale);
+
+            let startY = 50;
+            hallData.forEach(row => {
+                let startX = 50;
+                row.Places.forEach(place => {
+                    let color = place.IsReserved ? "#6c757d" :
+                                place.VIP ? "#ffc107" :
+                                "#198754";
+
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    ctx.roundRect(startX, startY, seatSize, seatSize, 4);
+                    ctx.fill();
+
+                    ctx.fillStyle = (place.VIP) ? "#000" : "#fff";
+                    ctx.font = "12px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(place.PlaceNumber, startX + seatSize/2, startY + seatSize/2);
+
+                    startX += seatSize + seatGap;
+                });
+
+                ctx.fillStyle = "#adb5bd";
+                ctx.font = "bold 14px sans-serif";
+                ctx.textAlign = "right";
+                ctx.fillText(row.RowNumber, 40, startY + seatSize/2);
+
+                startY += seatSize + seatGap;
+            });
+
+            ctx.restore();
+        }
+
+        // --- Масштабирование колесом ---
+        canvas.addEventListener("wheel", e => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            scale *= delta;
+            scale = Math.min(Math.max(scale, 0.5), 3);
+            drawHall();
+        });
+
+        // --- Перемещение (drag) ---
+        canvas.addEventListener("mousedown", e => {
+            isDragging = true;
+            dragStart.x = e.offsetX - offsetX;
+            dragStart.y = e.offsetY - offsetY;
+        });
+
+        canvas.addEventListener("mouseup", () => isDragging = false);
+        canvas.addEventListener("mouseleave", () => isDragging = false);
+        canvas.addEventListener("mousemove", e => {
+            if (!isDragging) return;
+            offsetX = e.offsetX - dragStart.x;
+            offsetY = e.offsetY - dragStart.y;
+            drawHall();
+        });
+
+        // --- Поддержка тачей (масштаб и перемещение) ---
+        let lastTouchDist = 0;
+        canvas.addEventListener("touchstart", e => {
+            if (e.touches.length === 2) {
+                lastTouchDist = getTouchDist(e.touches);
+            } else if (e.touches.length === 1) {
+                isDragging = true;
+                dragStart.x = e.touches[0].clientX - offsetX;
+                dragStart.y = e.touches[0].clientY - offsetY;
+            }
+        });
+
+        canvas.addEventListener("touchmove", e => {
+            e.preventDefault();
+            if (e.touches.length === 2) {
+                const dist = getTouchDist(e.touches);
+                if (lastTouchDist) {
+                    const delta = dist / lastTouchDist;
+                    scale *= delta;
+                    scale = Math.min(Math.max(scale, 0.5), 3);
+                    drawHall();
+                }
+                lastTouchDist = dist;
+            } else if (e.touches.length === 1 && isDragging) {
+                offsetX = e.touches[0].clientX - dragStart.x;
+                offsetY = e.touches[0].clientY - dragStart.y;
+                drawHall();
+            }
+        });
+
+        canvas.addEventListener("touchend", () => {
+            isDragging = false;
+            lastTouchDist = 0;
+        });
+
+        function getTouchDist(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx*dx + dy*dy);
+        }
+
+        drawHall();
+    </script>
+}
