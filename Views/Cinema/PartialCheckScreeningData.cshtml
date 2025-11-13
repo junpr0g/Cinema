@@ -3,3 +3,29 @@
 @{
     List<Reserved> reserveds = ViewBag.Reserved;
 }
+
+<div class="container-fluid">
+    <h4 class="mb-3">Сеанс фильма: <span class="text-info">@Model.Movie.Name</span></h4>
+    <p><strong>Начало:</strong> @Model.BeginningTime.ToString("dd.MM.yyyy HH:mm")</p>
+    <p><strong>Зал:</strong> @Model.Hall.Number</p>
+    <p><strong>Цена билета:</strong> @Model.Price €</p>
+
+    <hr class="border-secondary" />
+
+    <h5>Забронированные места:</h5>
+    @if (reserveds != null && reserveds.Any())
+    {
+        <ul class="list-group list-group-flush">
+            @foreach (var res in reserveds)
+            {
+                <li class="list-group-item bg-dark text-light border-secondary">
+                    Место: @res.PlaceId — Бронь до @res.ExpireAt.ToString("HH:mm")
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="text-muted">Пока нет бронированных мест.</p>
+    }
+</div>
