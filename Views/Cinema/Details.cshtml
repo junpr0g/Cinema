@@ -3,14 +3,14 @@
     ViewData["Title"] = Model.Name;
 }
 
-<div class="container py-4">
+<div class="container py-4 text-body">
     <div class="row g-4 align-items-start">
 
         <!-- Левая колонка1: постер -->
         <div class="col-12 col-md-4 text-center">
             <img src="~/images/@Model.PosterPath"
                  alt="@Model.Name Poster"
-                 class="img-fluid rounded shadow-sm w-100"
+                 class="img-fluid rounded shadow w-100"
                  style="max-height: 550px; object-fit: cover;">
         </div>
 
@@ -18,7 +18,7 @@
         <div class="col-12 col-md-8">
 
             <!-- Название -->
-            <h1 class="fw-bold mb-4">@Model.Name</h1>
+            <h1 class="fw-bold mb-4 text-light">@Model.Name</h1>
 
             <!-- Трейлер -->
             @if (!string.IsNullOrEmpty(Model.TrailerPath))
@@ -30,33 +30,83 @@
                         title="Трейлер @Model.Name"
                         allowfullscreen
                         allow="autoplay; encrypted-media"
-                        class="rounded shadow-sm border-0"></iframe>
-            </div>
-                        }           
+                        class="rounded shadow border-0">
+                    </iframe>
+                </div>
+            }           
         </div>
-
-
-
-
-
-         
-
-
-
-        <!-- Левая колонка2: постер -->
-        <div class="col-12 col-md-4 text-center">
+        <!-- Левая колонка2: сеансы по датам -->
+        <div class="col-12 col-md-4">
             @{
-                for (int i = 0; i < ViewBag.Screening.Count; i++)
-                {
-                    <button class="btn btn-info p-1 m-1" onclick="function1('@ViewBag.Screening[i].BeginningTime')"> @ViewBag.Screening[i].BeginningTime </button>
-                }
+                // Преобразуем список сеансов и группируем по дате начала
+                var screenings = (IEnumerable<Cinema.Models.DatabaseClasses.MovieScreening>)ViewBag.Screening ?? Enumerable.Empty<Cinema.Models.DatabaseClasses.MovieScreening>();
+
+                var grouped = screenings
+                    .Select(s => new { Item = s, Dt = s.BeginningTime })
+                    .GroupBy(x => x.Dt.Date)
+                    .OrderBy(g => g.Key)
+                    .ToList();
+
+                var accordionId = "screeningsAccordion";
             }
+
+            <div class="accordion bg-dark text-light border border-secondary rounded-3" id="@accordionId">
+                @for (int gi = 0; gi < grouped.Count; gi++)
+                {
+                    var group = grouped[gi];
+                    var headingId = $"heading-{gi}";
+                    var collapseId = $"collapse-{gi}";
+                    var isFirst = gi == 0;
+                    var dateTitle = group.Key.ToString("dd.MM.yyyy, dddd");
+                    <div class="accordion-item bg-dark text-light border-secondary">
+                        <h2 class="accordion-header" id="@headingId">
+                            <button class="accordion-button bg-dark text-light @(isFirst ? string.Empty : "collapsed")"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#@collapseId"
+                                    aria-expanded="@isFirst.ToString().ToLower()"
+                                    aria-controls="@collapseId"
+                                    style="box-shadow: none;">
+                                @dateTitle
+                            </button>
+                        </h2>
+                        <div id="@collapseId"
+                             class="accordion-collapse collapse @(isFirst ? "show" : string.Empty)"
+                             aria-labelledby="@headingId"
+                             data-bs-parent="#@accordionId">
+                            <div class="accordion-body p-0 bg-dark text-light border-top border-secondary">
+                                <ul class="list-group list-group-flush">
+                                    @{
+                                        var idx = 0;
+                                    }
+                                    @foreach (var x in group.OrderBy(t => t.Dt))
+                                    {
+                                        var timeText = x.Dt.ToString("HH:mm");
+                                        var isEven = idx++ % 2 == 0;
+                                        
+                                        <li class="list-group-item d-flex justify-content-between align-items-center border-secondary"
+                                            style="background-color:@(isEven ? "#1e1e1e" : "#2b2b2b"); color:white;">
+                                            <span class="fw-semibold">@timeText</span>
+                                            <span class="fw-semibold">@x.Item.Hall.Number-й зал.</span>
+                                            <button class="btn btn-sm btn-outline-light" onclick="CheckScreeningData('@x.Item.Id')">
+                                                Выбрать
+                                            </button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+
         </div>
 
         <!-- Правая колонка2: информация -->
-        <div class="col-12 col-md-8">            
+        <div class="col-12 col-md-8 text-light">
             <!-- Остальная информация -->
-            <div class="mb-2 text-muted">
+            <div class="mb-2 text-body-secondary">
                 <span class="me-3">
                     <i class="bi bi-clock"></i> @Model.Timing.ToString(@"hh\:mm")
                 </span>
@@ -104,6 +154,25 @@
             <div class="mt-4">
                 <h5 class="fw-semibold mb-2">Описание:</h5>
                 <p class="lead">@Model.Description</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно -->
+<div class="modal fade" id="screeningModal" tabindex="-1" aria-labelledby="screeningModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title" id="screeningModalLabel">Информация о сеансе</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body" id="screeningModalBody">
+                <!-- Сюда подгружается PartialView -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Загрузка...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

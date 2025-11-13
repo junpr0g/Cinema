@@ -1,5 +1,5 @@
 ﻿@model List<Cinema.Models.DatabaseClasses.MovieRental>
-<div class="container py-4">
+<div class="container py-4 text-body">
     <div class="row g-4">
         @for (int i = 0; i < Model.Count; i++)
         {
@@ -8,15 +8,15 @@
             var duration = movie.Timing.ToString(@"hh\:mm\:ss");
             var poster = Url.Content($"~/images/{movie.PosterPath}");
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="~/Cinema/Details?id=@movie.Id" class="card h-100 shadow-sm border-0 text-black cinema-main-card-a cinema-main-card text-decoration-none">
+                <a href="~/Cinema/Details?id=@movie.Id" class="card h-100 shadow border-0 bg-dark text-white text-reset cinema-main-card-a cinema-main-card text-decoration-none">
                     <div class="position-relative">
                         <img src="@poster" class="card-img-top img-fluid w-100" alt="@movie.Name poster" />
                         <span class="position-absolute top-0 start-0 m-2 badge bg-danger rounded-pill">@(movie.AgeLimit?.Value + "+")</span>
                         <span class="position-absolute bottom-0 end-0 m-2 badge bg-dark bg-opacity-75">@duration</span>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title mb-2 text-truncate" title="@movie.Name">@movie.Name</h5>
-                        <p class="card-text text-muted small mb-2">
+                        <h5 class="card-title mb-2 text-truncate text-white" title="@movie.Name">@movie.Name</h5>
+                        <p class="card-text text-light small mb-2">
                             Прокат: @rental.RentalStart.ToString("dd.MM.yyyy") — @rental.RentalEnd.ToString("dd.MM.yyyy")
                         </p>
                         <div class="mb-2">
@@ -29,7 +29,7 @@
                             }
                             else
                             {
-                                <span class="badge bg-light text-dark">Жанр не указан</span>
+                                <span class="badge bg-body-secondary text-body">Жанр не указан</span>
                             }
                         </div>
                     </div>
