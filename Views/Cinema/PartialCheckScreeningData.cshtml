@@ -2,30 +2,56 @@
 @using global::Cinema.Models.DatabaseClasses
 @{
     List<Reserved> reserveds = ViewBag.Reserved;
+    var reservedIds = reserveds.Select(r => r.PlaceId).ToHashSet();
 }
 
-<div class="container-fluid">
-    <h4 class="mb-3">Сеанс фильма: <span class="text-info">@Model.Movie.Name</span></h4>
+<div class="container-fluid text-light">
+    <h4 class="mb-3">Зал №@Model.Hall.Number</h4>
     <p><strong>Начало:</strong> @Model.BeginningTime.ToString("dd.MM.yyyy HH:mm")</p>
-    <p><strong>Зал:</strong> @Model.Hall.Number</p>
-    <p><strong>Цена билета:</strong> @Model.Price €</p>
+    <p><strong>Цена билета:</strong> @Model.Price ₽</p>
 
     <hr class="border-secondary" />
 
-    <h5>Забронированные места:</h5>
-    @if (reserveds != null && reserveds.Any())
-    {
-        <ul class="list-group list-group-flush">
-            @foreach (var res in reserveds)
-            {
-                <li class="list-group-item bg-dark text-light border-secondary">
-                    Место: @res.PlaceId — Бронь до @res.ExpireAt.ToString("HH:mm")
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p class="text-muted">Пока нет бронированных мест.</p>
-    }
+    <div class="screen text-center mb-3">
+        <div class="bg-secondary text-dark fw-bold rounded-pill py-1">ЭКРАН</div>
+    </div>
+
+    <div class="hall-layout d-flex flex-column align-items-center gap-2">
+        @foreach (var row in Model.Hall.Rows.OrderBy(r => r.RowNumber))
+        {
+            <div class="row d-flex justify-content-center gap-2">
+                <div class="row-label me-2 fw-bold text-secondary">@row.RowNumber</div>
+
+                @foreach (var place in row.Places.OrderBy(p => p.PlaceNumber))
+                {
+                    bool isReserved = reservedIds.Contains(place.Id);
+                    string bgColor = isReserved ? "bg-danger" :
+                    place.VIP ? "bg-warning text-dark" :
+                    "bg-success";
+
+                    <div class="seat rounded-2 @bgColor d-inline-flex justify-content-center align-items-center"
+                         style="width:30px; height:30px; cursor:pointer;"
+                         title="Место @place.PlaceNumber @(isReserved ? "(занято)" : "(свободно)")">
+                        @place.PlaceNumber
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <hr class="border-secondary mt-4" />
+
+    <div class="legend d-flex gap-3 justify-content-center">
+        <div><span class="badge bg-success">&nbsp;&nbsp;</span> Свободно</div>
+        <div><span class="badge bg-danger">&nbsp;&nbsp;</span> Занято</div>
+        <div><span class="badge bg-warning text-dark">&nbsp;&nbsp;</span> VIP</div>
+    </div>
 </div>
+
+<style>
+    .seat:hover {
+        transform: scale(1.15);
+        transition: transform 0.1s ease-in-out;
+        filter: brightness(1.2);
+    }
+</style>
