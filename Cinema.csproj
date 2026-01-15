@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Models\Interfaces\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

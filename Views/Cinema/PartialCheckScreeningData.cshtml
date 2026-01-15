@@ -1,10 +1,9 @@
-﻿@model global::Cinema.Models.DatabaseClasses.MovieScreening
-@using global::Cinema.Models.DatabaseClasses
+﻿@using Cinema.Models.DatabaseClasses
+@model global::Cinema.Models.DatabaseClasses.MovieScreening
 @{
     List<Reserved> reserveds = ViewBag.Reserved;
     var reservedIds = reserveds.Select(r => r.PlaceId).ToHashSet();
 
-    // Подготовим JS-данные
     var hallData = Model.Hall.Rows
         .OrderBy(r => r.RowNumber)
         .Select(r => new
@@ -20,32 +19,118 @@
                 })
         });
 }
+<style>
+    .hall-wrapper {
+        transform-origin: top center;
+        transform: scale(1);
+    }
 
-<div class="container-fluid text-light">
-    <h4 class="mb-3">Зал №@Model.Hall.Number</h4>
-    <p><strong>Начало:</strong> @Model.BeginningTime.ToString("dd.MM.yyyy HH:mm")</p>
-    <p><strong>Цена билета:</strong> @Model.Price ₽</p>
+    /* масштаб под мобильные */
+    @@media (max-width: 768px) {
+        .hall-wrapper
 
-    <hr class="border-secondary" />
+    {
+        transform: scale(0.8);
+    }
 
-    <div class="screen text-center mb-3">
-        <div class="bg-secondary text-dark fw-bold rounded-pill py-1">ЭКРАН</div>
-    </div>
+    }
 
-    <div class="d-flex justify-content-center">
-        <canvas id="hallCanvas"
-                width="600"
-                height="400"
-                class="border border-secondary rounded w-100"
-                data-hall='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(hallData))'
-                style="max-width:600px;"></canvas>
-    </div>
+    @@media (max-width: 480px) {
+        .hall-wrapper
 
-    <hr class="border-secondary mt-4" />
+    {
+        transform: scale(0.65);
+    }
 
-    <div class="legend d-flex gap-3 justify-content-center">
-        <div><span class="badge bg-success">&nbsp;&nbsp;</span> Свободно</div>
-        <div><span class="badge bg-secondary">&nbsp;&nbsp;</span> Занято</div>
-        <div><span class="badge bg-warning text-dark">&nbsp;&nbsp;</span> VIP</div>
+    
+
+    .hall {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .hall-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .row-number {
+        width: 32px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .places {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 6px;
+    }
+
+    .place-btn {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        font-size: 0.8rem;
+        border-radius: 6px;
+    }
+    </style>
+<div class="d-flex justify-content-center overflow-auto">
+    <div class="hall-wrapper">
+        <div class="screen mb-3 text-center">
+            <div class="bg-secondary text-dark fw-bold rounded-pill py-1">
+                ЭКРАН
+            </div>
+        </div>
+
+        <div class="hall">
+            @foreach (var row in hallData)
+            {
+                <div class="hall-row">
+                    <div class="row-number">@row.RowNumber</div>
+
+                    <div class="places">
+                        @foreach (var place in row.Places)
+                        {
+                            var btnClass = place.IsReserved
+                            ? "btn-secondary"
+                            : place.VIP
+                            ? "btn-warning"
+                            : "btn-success";
+
+                            <button type="button"
+                                    class="btn place-btn @btnClass"
+                                    data-row="@row.RowNumber"
+                                    data-place="@place.PlaceNumber"
+                                    data-place-id="@place.Id"
+                                    disabled="@(place.IsReserved)">
+                                @place.PlaceNumber
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
+<div class="legend d-flex gap-3 justify-content-center mt-4">
+    <div><span class="badge bg-success">&nbsp;&nbsp;</span> Свободно</div>
+    <div><span class="badge bg-secondary">&nbsp;&nbsp;</span> Занято</div>
+    <div><span class="badge bg-warning text-dark">&nbsp;&nbsp;</span> VIP</div>
+</div>
+<script>
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.place-btn');
+        if (!btn) return;
+
+        const row = btn.dataset.row;
+        const place = btn.dataset.place;
+        const id = btn.dataset.placeId;
+
+        console.log(`Ряд ${row}, Место ${place}, ID ${id}`);
+
+        btn.classList.toggle('btn-success');
+        btn.classList.toggle('btn-primary');
+    });
+</script>
