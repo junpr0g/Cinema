@@ -206,6 +206,7 @@ function updateOrderPanel() {
     } else {
         panel.classList.add('hidden');
     }
+        updateOrderButtonText();
 }
 
 // Обработка клика по месту
@@ -230,7 +231,7 @@ document.addEventListener('click', function (e) {
         }
     } else {
         // добавляем выбор
-        selectedPlaces.push(placeId);
+        selectedPlaces.push(Number(placeId));
         btn.classList.add('selected');
         
         // меняем на синий независимо от типа места
@@ -250,7 +251,8 @@ document.getElementById('btnCreateOrder')?.addEventListener('click', function ()
         ScreeningId: @Model.Id,
         PlaceIds: selectedPlaces
     };
-
+    console.log(data);
+    return;
     fetch('/Order/CreateOrder', {
         method: 'POST',
         headers: {
@@ -278,6 +280,40 @@ document.getElementById('btnCreateOrder')?.addEventListener('click', function ()
         alert('Произошла ошибка при создании заказа');
     });
 });
+    function updateOrderButtonText() {
+        const btn = document.getElementById('btnCreateOrder');
+        if (!btn || selectedPlaces.length === 0) {
+            btn.textContent = 'Оформить заказ';
+            return;
+        }
+
+        // Собираем выбранные кнопки
+        const selectedBtns = Array.from(document.querySelectorAll('.place-btn.selected'));
+
+        // Группируем по рядам
+        const rowsMap = {};
+        selectedBtns.forEach(b => {
+            const row = b.dataset.row;
+            const place = parseInt(b.dataset.place);
+
+            if (!rowsMap[row]) rowsMap[row] = [];
+            rowsMap[row].push(place);
+        });
+
+        // Формируем текст
+        const parts = Object.keys(rowsMap)
+            .sort((a, b) => a - b)
+            .map(row => {
+                const places = rowsMap[row].sort((a, b) => a - b);
+                if (places.length === 1) {
+                    return `Ряд: ${row}, Место: ${places[0]}`;
+                }
+                return `Ряд: ${row}, Места: ${places.join(',')}`;
+            });
+
+        btn.textContent = `Оформить заказ (${parts.join('. ')})`;
+    }
+
 </script>
 
 <!-- Не забудь AntiForgeryToken, если используешь [ValidateAntiForgeryToken] в контроллере -->
