@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace Cinema
 {
@@ -10,11 +11,25 @@ namespace Cinema
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            // установка конфигурации подключения
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            
+            // ????????? ??????????????
+            var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+            var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+            
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                })
+                .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+                {
+                    options.ClientId = googleClientId;
+                    options.ClientSecret = googleClientSecret;
+                    options.CallbackPath = "/signin-google";
                 });
             var app = builder.Build();
 
@@ -31,7 +46,7 @@ namespace Cinema
 
             app.UseRouting();
 
-            app.UseAuthentication();    // аутентификация
+            app.UseAuthentication();    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
             app.UseAuthorization();
 
