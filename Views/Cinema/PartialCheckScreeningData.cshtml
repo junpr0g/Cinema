@@ -192,7 +192,7 @@
 
 <script>
 // Массив выбранных мест (id)
-let selectedPlaces = [];
+selectedPlaces = [];
 
 // Обновление UI панели заказа
 function updateOrderPanel() {
@@ -210,37 +210,35 @@ function updateOrderPanel() {
 }
 
 // Обработка клика по месту
-document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.place-btn:not(:disabled)');
-    if (!btn) return;
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.place-btn:not(:disabled)');
+        if (!btn) return;
 
-    const placeId = btn.dataset.placeId;
+        const placeId = Number(btn.dataset.placeId); // <-- важно
 
-    // Переключаем выбор
-    if (selectedPlaces.includes(placeId)) {
-        // снимаем выбор
-        selectedPlaces = selectedPlaces.filter(id => id !== placeId);
-        btn.classList.remove('selected');
-        
-        // возвращаем исходный цвет
-        if (btn.classList.contains('btn-warning')) {
-            btn.classList.remove('btn-primary');
+        if (selectedPlaces.includes(placeId)) {
+            // снять выбор
+            selectedPlaces = selectedPlaces.filter(id => id !== placeId);
+            btn.classList.remove('selected', 'btn-primary');
+
+            // вернуть исходный цвет
+            if (btn.classList.contains('btn-warning')) {
+                // VIP
+                btn.classList.add('btn-warning');
+            } else {
+                btn.classList.add('btn-success');
+            }
         } else {
-            btn.classList.remove('btn-primary');
-            btn.classList.add('btn-success');
+            // добавить выбор
+            selectedPlaces.push(placeId);
+            btn.classList.add('selected');
+            btn.classList.remove('btn-success', 'btn-warning');
+            btn.classList.add('btn-primary');
         }
-    } else {
-        // добавляем выбор
-        selectedPlaces.push(Number(placeId));
-        btn.classList.add('selected');
-        
-        // меняем на синий независимо от типа места
-        btn.classList.remove('btn-success', 'btn-warning');
-        btn.classList.add('btn-primary');
-    }
 
-    updateOrderPanel();
-});
+        updateOrderPanel();
+    });
+
 
 // Оформить заказ
 document.getElementById('btnCreateOrder')?.addEventListener('click', function () {
