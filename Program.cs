@@ -30,6 +30,10 @@ namespace Cinema
                     options.ClientId = googleClientId;
                     options.ClientSecret = googleClientSecret;
                     options.CallbackPath = "/signin-google";
+                    options.Scope.Add("https://www.googleapis.com/auth/user.phonenumbers.read");
+                    options.Scope.Add("https://www.googleapis.com/auth/user.birthday.read");
+                    options.Scope.Add("https://www.googleapis.com/auth/userinfo.profile");
+                    options.SaveTokens = true; // Это критически важно
                 });
             var app = builder.Build();
 
