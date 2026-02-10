@@ -249,15 +249,14 @@ document.getElementById('btnCreateOrder')?.addEventListener('click', function ()
         ScreeningId: @Model.Id,
         PlaceIds: selectedPlaces
     };
-    console.log(data);
-    return;
+        console.log(JSON.stringify(data));    
+
     fetch('/Order/CreateOrder', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+        method: 'POST',        
+        body: JSON.stringify(data),
+            headers: {
+            'Content-Type': 'application/json' // Это критически важно!
         },
-        body: JSON.stringify(data)
     })
     .then(response => {
         if (!response.ok) {
