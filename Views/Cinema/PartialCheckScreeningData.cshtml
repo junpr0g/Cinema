@@ -251,31 +251,13 @@ document.getElementById('btnCreateOrder')?.addEventListener('click', function ()
     };
         console.log(JSON.stringify(data));    
 
-    fetch('/Order/CreateOrder', {
-        method: 'GET',        
-        body: JSON.stringify(data),
-            headers: {
-            'Content-Type': 'application/json' // Это критически важно!
-        },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Ошибка сервера: ' + response.status);
-        }
-        return response.json();
-    })
-    .then(result => {
-        if (result.success) {
-            alert('Заказ успешно создан! Номер заказа: ' + result.orderId);
-            window.location.href = result.redirectUrl || '/Order/Success';
-        } else {
-            alert('Не удалось создать заказ: ' + (result.message || 'Неизвестная ошибка'));
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Произошла ошибка при создании заказа');
-    });
+    // Построим query string и перенаправим браузер — это позволит сработать стандартному редиректу Authorize
+    const params = new URLSearchParams();
+    params.append('screeningId', data.ScreeningId);
+    data.PlaceIds.forEach(id => params.append('placeIds', id));
+
+    // Навигация — браузер перейдёт на страницу, и при отсутствии авторизации сработает redirect на логин
+    window.location.href = '/Order/CreateOrder?' + params.toString();
 });
     function updateOrderButtonText() {
         const btn = document.getElementById('btnCreateOrder');
