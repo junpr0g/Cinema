@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Cinema.Models.DatabaseClasses;
 
 namespace Cinema
 {
@@ -11,11 +12,14 @@ namespace Cinema
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            
-            // ????????? ??????????????
+
+            // Регистрация DbContext в DI
+            builder.Services.AddDbContext<Database>();
+
+            // Настройка аутентификации Google
             var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
             var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-            
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -50,7 +54,7 @@ namespace Cinema
 
             app.UseRouting();
 
-            app.UseAuthentication();    // ��������������
+            app.UseAuthentication();    // аутентификация
 
             app.UseAuthorization();
 

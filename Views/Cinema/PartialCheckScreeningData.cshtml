@@ -252,7 +252,7 @@ document.getElementById('btnCreateOrder')?.addEventListener('click', function ()
         console.log(JSON.stringify(data));    
 
     fetch('/Order/CreateOrder', {
-        method: 'POST',        
+        method: 'GET',        
         body: JSON.stringify(data),
             headers: {
             'Content-Type': 'application/json' // Это критически важно!
