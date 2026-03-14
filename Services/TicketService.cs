@@ -11,7 +11,7 @@ using Cinema.Models.DatabaseClasses;
 namespace Cinema.Services
 {
     public class TicketService
-{
+    {
         public static string secretKey = "";
     public record TicketData(
         int Id,

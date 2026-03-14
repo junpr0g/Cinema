@@ -23,7 +23,6 @@
     <Folder Include="Migrations\" />
     <Folder Include="Models\Interfaces\" />
     <Folder Include="Models\Requests\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
 
 </Project>

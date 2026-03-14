@@ -1,72 +1,120 @@
 using Cinema.Models.DatabaseClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using Cinema.Models.DTOs;
+
 namespace Cinema.Controllers
+
 {
     public class OrderController(Database db) : Controller
     {
         [HttpGet]
         [Authorize]
-        public async IActionResult CreateOrder([FromQuery] int screeningId, [FromQuery] List<int> placeIds)
+        public async System.Threading.Tasks.Task<IActionResult> CreateOrder([FromQuery] int screeningId, [FromQuery] List<int> placeIds)
         {
-            List<int> NewReservedIds = new List<int>();
-            if (placeIds != null || placeIds.Any())
-            {
-                // Первым делом проверяем, что бы выбранные места были свободны.
-                MovieScreening screening = db.MovieScreenings.FirstOrDefault(s => s.Id == screeningId);
-                List<Reserved> AllScreeningPlaces = db.Reserveds.Where(r => r.MovieScreeningId == screeningId && r.IsUsed == true).ToList();
-                bool isAnyPlaceReserved = false; // Если true, значит одно из мест уже занято, и нужно показать ошибку пользователю, что бы он выбрал другие места.
-
-                foreach (int placeId in placeIds) 
-                {
-                    if (AllScreeningPlaces.Any(r => r.PlaceId == placeId))
-                    {
-                        isAnyPlaceReserved = true;
-                        break;
-                    }
-                }
-                
-                    // Получаем пользователя из cookie.
-                    Viewer user = db.Viewers.FirstOrDefault(v => v.Email == User.Identity.Name);
-                // Оформляем заказ в базе, связывая его с пользователем, сеансом и местами.
-                if (user != null && isAnyPlaceReserved == false) 
-                {
-                    foreach (int placeId in placeIds) 
-                    {
-                        Reserved reserved = new Reserved();
-                        reserved.MovieScreeningId = screeningId;
-                        reserved.IsUsed = true;
-                        reserved.PlaceId = placeId;
-                        reserved.ViewerId = user.Id;
-                        reserved.CreatedAt = DateTime.Now;
-                        reserved.ExpireAt = DateTime.Now.AddMinutes(15); // Время, в течение которого бронь будет действительна (например, 15 минут).
-                        NewReservedIds.Add(db.Reserveds.Add(reserved).Context.Entry(reserved).Entity.Id);
-                    }
-                    await db.SaveChangesAsync(); 
-                    // Генерируем билет с возможностью его скачать(код взять из другого проекта).
-
-                }   
-
-               
-
-
-
-
+            // Validate input
+            if (placeIds == null || !placeIds.Any())
                 return BadRequest(new { success = false, message = "Нет выбранных мест" });
+
+            // Проверяем существование сеанса
+            MovieScreening screening = db.MovieScreenings.FirstOrDefault(s => s.Id == screeningId);
+            if (screening == null)
+                return BadRequest(new { success = false, message = "Сеанс не найден" });
+
+            // Проверяем занятые места на сеансе
+            var allReserved = db.Reserveds.Where(r => r.MovieScreeningId == screeningId && r.IsUsed == true).ToList();
+            var conflicted = placeIds.Intersect(allReserved.Select(r => r.PlaceId)).Any();
+            if (conflicted)
+                return BadRequest(new { success = false, message = "Одно или несколько мест уже заняты" });
+
+            // Получаем пользователя
+            var email = User.FindFirst(ClaimTypes.Email)?.Value
+            ?? User.FindFirst("email")?.Value;
+
+            Viewer user = db.Viewers.FirstOrDefault(v => v.Email == email);
+            if (user == null)
+                return Unauthorized();
+
+            var createdReserved = new List<Reserved>();
+
+            // Создаём брони
+            foreach (int placeId in placeIds)
+            {
+                var reserved = new Reserved
+                {
+                    MovieScreeningId = screeningId,
+                    IsUsed = true,
+                    PlaceId = placeId,
+                    ViewerId = user.Id,
+                    CreatedAt = DateTime.Now,
+                    ExpireAt = DateTime.Now.AddMinutes(15)
+                };
+                db.Reserveds.Add(reserved);
+                createdReserved.Add(reserved);
             }
 
-            // TODO: здесь создаём заказ в базе (используя screeningId и placeIds)
-            // Пока вернём заглушку
-            var fakeOrderId = 1;
+            await db.SaveChangesAsync();
 
-            return Json(new
+            // Создаём сущности билетов и генерируем PDF'ы
+            var ticketService = new Cinema.Services.TicketService();
+            // Ensure secret key exists (fallback to a generated key if not set)
+            if (string.IsNullOrWhiteSpace(Cinema.Services.TicketService.secretKey))
             {
-                success = true,
-                orderId = fakeOrderId,
-                redirectUrl = Url.Action("Main", "Cinema")
-            });
+                Cinema.Services.TicketService.secretKey = System.Environment.GetEnvironmentVariable("TICKET_SECRET") ?? "0123456789ABCDEF0123456789ABCDEF";
+            }
+
+            var ticketsForView = new List<TicketDto>();
+
+            foreach (var reserved in createdReserved)
+            {
+                // Create ticket record
+                var place = db.Places.FirstOrDefault(p => p.Id == reserved.PlaceId);
+                var ticket = new Ticket
+                {
+                    Id = Guid.NewGuid().ToString("N"),
+                    ViewerId = user.Id,
+                    MovieScreeningId = screeningId,
+                    Reserved = reserved,   // ← EF сам заполнит ReservedId
+                    SeatTypeId = place?.SeatTypeId ?? 0
+                };
+                db.Tickets.Add(ticket);
+                
+                // Prepare values for PDF
+                var movieTitle = screening.Movie?.Name ?? "---";
+                var placeNumber = place?.PlaceNumber ?? reserved.PlaceId;
+                var isVip = place?.VIP ?? false;
+
+                // Generate PDF bytes
+                byte[] pdfBytes = null;
+                try
+                {
+                    pdfBytes = ticketService.Generate(int.Parse(ticket.Id?.Substring(0, Math.Min(8, ticket.Id.Length)), System.Globalization.NumberStyles.HexNumber), movieTitle, placeNumber, 0, screening.BeginningTime, isVip);
+                }
+                catch
+                {
+                    // Fallback: attempt Generate with ticket numeric id = reserved.Id
+                    pdfBytes = ticketService.Generate(reserved.Id, movieTitle, placeNumber, 0, screening.BeginningTime, isVip);
+                }
+
+                var pdfBase64 = pdfBytes != null ? Convert.ToBase64String(pdfBytes) : null;
+
+                ticketsForView.Add(new TicketDto(
+                     ticket.Id,
+                     reserved.Id,
+                     movieTitle,
+                     placeNumber,
+                     isVip,
+                     pdfBase64
+                 ));
+            }
+
+            await db.SaveChangesAsync();
+
+            // Возвращаем страницу с билетами (view уже создан пользователем)
+            return View("CreateOrder", ticketsForView);
         }
     }
 }
