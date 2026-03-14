@@ -9,8 +9,9 @@ namespace Cinema.Controllers
     {
         [HttpGet]
         [Authorize]
-        public IActionResult CreateOrder([FromQuery] int screeningId, [FromQuery] List<int> placeIds)
+        public async IActionResult CreateOrder([FromQuery] int screeningId, [FromQuery] List<int> placeIds)
         {
+            List<int> NewReservedIds = new List<int>();
             if (placeIds != null || placeIds.Any())
             {
                 // Первым делом проверяем, что бы выбранные места были свободны.
@@ -26,11 +27,34 @@ namespace Cinema.Controllers
                         break;
                     }
                 }
-
+                
                     // Получаем пользователя из cookie.
-                    // Оформляем заказ в базе, связывая его с пользователем, сеансом и местами.
+                    Viewer user = db.Viewers.FirstOrDefault(v => v.Email == User.Identity.Name);
+                // Оформляем заказ в базе, связывая его с пользователем, сеансом и местами.
+                if (user != null && isAnyPlaceReserved == false) 
+                {
+                    foreach (int placeId in placeIds) 
+                    {
+                        Reserved reserved = new Reserved();
+                        reserved.MovieScreeningId = screeningId;
+                        reserved.IsUsed = true;
+                        reserved.PlaceId = placeId;
+                        reserved.ViewerId = user.Id;
+                        reserved.CreatedAt = DateTime.Now;
+                        reserved.ExpireAt = DateTime.Now.AddMinutes(15); // Время, в течение которого бронь будет действительна (например, 15 минут).
+                        NewReservedIds.Add(db.Reserveds.Add(reserved).Context.Entry(reserved).Entity.Id);
+                    }
+                    await db.SaveChangesAsync(); 
                     // Генерируем билет с возможностью его скачать(код взять из другого проекта).
-                    return BadRequest(new { success = false, message = "Нет выбранных мест" });
+
+                }   
+
+               
+
+
+
+
+                return BadRequest(new { success = false, message = "Нет выбранных мест" });
             }
 
             // TODO: здесь создаём заказ в базе (используя screeningId и placeIds)

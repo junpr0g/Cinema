@@ -19,5 +19,16 @@
         public int PlaceId { get; set; }
         public virtual Place Place { get; set; }
         public bool IsUsed { get; set; }
+
+        //public Reserved( int movieScreeningId, int viewerId, DateTime createdAt, DateTime expireAt, int placeId, bool isUsed)
+        //{
+        //    MovieScreeningId = movieScreeningId;
+        //    ViewerId = viewerId;
+        //    CreatedAt = createdAt;
+        //    ExpireAt = expireAt;
+        //    PlaceId = placeId;
+        //    IsUsed = isUsed;
+        //}
     }
+
 }
