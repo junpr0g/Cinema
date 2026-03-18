@@ -152,11 +152,12 @@
                                                                "btn-success";
 
                             <button type="button"
-                                    class="btn place-btn @baseClass"
-                                    data-place-id="@place.Id"
-                                    data-row="@row.RowNumber"
-                                    data-place="@place.PlaceNumber"
-                                    disabled="@(place.IsReserved ? "disabled" : null)">
+                                class="btn place-btn @baseClass"
+                                data-place-id="@place.Id"
+                                data-row="@row.RowNumber"
+                                data-place="@place.PlaceNumber"
+                                data-type="@(place.VIP ? "vip" : "normal")"
+                                disabled="@(place.IsReserved ? "disabled" : null)">
                                 @place.PlaceNumber
                             </button>
                         }
@@ -217,24 +218,27 @@ function updateOrderPanel() {
         const placeId = Number(btn.dataset.placeId); // <-- важно
 
         if (selectedPlaces.includes(placeId)) {
-            // снять выбор
-            selectedPlaces = selectedPlaces.filter(id => id !== placeId);
-            btn.classList.remove('selected', 'btn-primary');
+    // снять выбор
+                selectedPlaces = selectedPlaces.filter(id => id !== placeId);
 
-            // вернуть исходный цвет
-            if (btn.classList.contains('btn-warning')) {
-                // VIP
-                btn.classList.add('btn-warning');
+                btn.classList.remove('selected', 'btn-primary');
+
+                const type = btn.dataset.type;
+
+                if (type === 'vip') {
+                    btn.classList.add('btn-warning');
+                } else {
+                    btn.classList.add('btn-success');
+                }
+
             } else {
-                btn.classList.add('btn-success');
-            }
-        } else {
-            // добавить выбор
-            selectedPlaces.push(placeId);
-            btn.classList.add('selected');
-            btn.classList.remove('btn-success', 'btn-warning');
-            btn.classList.add('btn-primary');
-        }
+                // добавить выбор
+                selectedPlaces.push(placeId);
+
+                btn.classList.add('selected');
+                btn.classList.remove('btn-success', 'btn-warning');
+                btn.classList.add('btn-primary');
+}
 
         updateOrderPanel();
     });

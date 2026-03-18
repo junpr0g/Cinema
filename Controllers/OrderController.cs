@@ -67,21 +67,19 @@ namespace Cinema.Controllers
             }
 
             var ticketsForView = new List<TicketDto>();
-
+            // Получить все ряды для текущего зала текущего сеанса            
             foreach (var reserved in createdReserved)
             {
                 // Create ticket record
                 var place = db.Places.FirstOrDefault(p => p.Id == reserved.PlaceId);
                 var ticket = new Ticket
                 {
-                    Id = Guid.NewGuid().ToString("N"),
                     ViewerId = user.Id,
                     MovieScreeningId = screeningId,
                     Reserved = reserved,   // ← EF сам заполнит ReservedId
                     SeatTypeId = place?.SeatTypeId ?? 0
                 };
                 db.Tickets.Add(ticket);
-                
                 // Prepare values for PDF
                 var movieTitle = screening.Movie?.Name ?? "---";
                 var placeNumber = place?.PlaceNumber ?? reserved.PlaceId;
@@ -91,7 +89,7 @@ namespace Cinema.Controllers
                 byte[] pdfBytes = null;
                 try
                 {
-                    pdfBytes = ticketService.Generate(int.Parse(ticket.Id?.Substring(0, Math.Min(8, ticket.Id.Length)), System.Globalization.NumberStyles.HexNumber), movieTitle, placeNumber, 0, screening.BeginningTime, isVip);
+                    pdfBytes = ticketService.Generate(ticket.Id, movieTitle, placeNumber, 0, screening.BeginningTime, isVip);
                 }
                 catch
                 {
@@ -100,15 +98,12 @@ namespace Cinema.Controllers
                 }
 
                 var pdfBase64 = pdfBytes != null ? Convert.ToBase64String(pdfBytes) : null;
-
                 ticketsForView.Add(new TicketDto(
-                     ticket.Id,
-                     reserved.Id,
-                     movieTitle,
-                     placeNumber,
-                     isVip,
-                     pdfBase64
-                 ));
+                    pdfBase64,
+                    ticket,
+                    reserved.Place.Row.RowNumber,
+                    reserved.Place.PlaceNumber                   
+                ));               
             }
 
             await db.SaveChangesAsync();

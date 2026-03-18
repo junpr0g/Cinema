@@ -1,4 +1,6 @@
-﻿namespace Cinema.Models.DTOs
+﻿using Cinema.Models.DatabaseClasses;
+
+namespace Cinema.Models.DTOs
 {
-    public record TicketDto(string TicketId,int ReservedId,string Movie,int Place,bool IsVip,string PdfBase64);
+    public record TicketDto(string PdfBase64, Ticket ticket, int RowNumber, int PlaceNumber);
 }
