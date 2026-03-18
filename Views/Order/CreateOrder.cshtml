@@ -1,4 +1,4 @@
-﻿@* @model IEnumerable<Cinema.Models.DTOs.TicketDto>
+﻿@model IEnumerable<Cinema.Models.DTOs.TicketDto>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,14 +21,14 @@ else
                     <div class="card-body d-flex flex-column">
 
                         <h5 class="card-title">
-                            @item.Movie
+                            @item.ticket.MovieScreening.Movie.Name
                         </h5>
 
-                        <p class="card-text">
-                            Место:
-                            <strong>@item.Place</strong>
+                        <p class="card-text">                            
+                            Ряд: <strong>@item.place.Row.RowNumber</strong> Место: <strong>@item.place.PlaceNumber</strong>
+                            
 
-                            @if (item.IsVip)
+                            @if (item.place.VIP)
                             {
                                 <span class="badge bg-warning text-dark ms-2">
                                     VIP
@@ -38,7 +38,7 @@ else
 
                         <p class="card-text">
                             Билет:
-                            <strong>@item.TicketId</strong>
+                            <strong>@item.ticket.Id</strong>
                         </p>
 
                         @if (!string.IsNullOrEmpty(item.PdfBase64))
@@ -53,7 +53,7 @@ else
                             <div class="mt-auto">
                                 <a class="btn btn-primary btn-sm"
                                    href="data:application/pdf;base64,@item.PdfBase64"
-                                   download="ticket_@(item.TicketId).pdf">Скачать PDF
+                                   download="ticket_@(item.ticket.Id).pdf">Скачать PDF
                                 </a>
                             </div>
                         }
@@ -70,4 +70,4 @@ else
             </div>
         }
     </div>
-} *@
+}

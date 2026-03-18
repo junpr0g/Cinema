@@ -2,5 +2,5 @@
 
 namespace Cinema.Models.DTOs
 {
-    public record TicketDto(string PdfBase64, Ticket ticket, int RowNumber, int PlaceNumber);
+    public record TicketDto(string PdfBase64, Ticket ticket, Place place);
 }

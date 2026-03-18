@@ -19,9 +19,11 @@ namespace Cinema.Services
         int Place,
         int Row,
         DateTime Date,
-        bool IsVip);
+        bool IsVip,
+        string ViewerName
+        );
 
-    public byte[] Generate(int ticketId, string movie, int place, int row, DateTime date, bool isVip)
+    public byte[] Generate(int ticketId, string movie, int place, int row, DateTime date, bool isVip, string ViewerName)
     {
         // 1. Подготовка данных
         var data = new TicketData(
@@ -30,7 +32,8 @@ namespace Cinema.Services
             Place: place,
             Row: row,
             Date: date,
-            IsVip: isVip
+            IsVip: isVip,
+            ViewerName: ViewerName
         );
 
         // 2. Сериализация и шифрование
@@ -96,9 +99,9 @@ namespace Cinema.Services
                                 l.Item().Text("Кинотеатр: CIL");
                             });
                             row.RelativeItem().Column(r => {
-                                r.Item().Text("Дата:").FontColor(theme.SecondaryText);
+                                r.Item().Text("Дата: ").FontColor(theme.SecondaryText);
                                 r.Item().Text(data.Date.ToString("dd.MM.yyyy HH:mm")).SemiBold();
-                                r.Item().Text("Владелец: Иван Иванов").FontColor(theme.SecondaryText);
+                                r.Item().Text($"Владелец: {data.ViewerName}").FontColor(theme.SecondaryText);
                             });
                         });
 
