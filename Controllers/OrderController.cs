@@ -15,6 +15,50 @@ namespace Cinema.Controllers
     {
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> ViewersTickets()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst("email")?.Value;
+            var user = await db.Viewers.FirstOrDefaultAsync(v => v.Email == email);
+            if (user == null) return Unauthorized();
+
+            var tickets = await db.Tickets
+                .Include(t => t.Reserved).ThenInclude(r => r.Place).ThenInclude(p => p.Row)
+                .Include(t => t.MovieScreening).ThenInclude(ms => ms.Movie)
+                .Where(t => t.ViewerId == user.Id)
+                .ToListAsync();
+
+            var ticketService = new Cinema.Services.TicketService();          
+
+            var ticketsForView = new List<TicketDto>();
+            foreach (var ticket in tickets)
+            {
+                byte[] pdfBytes = null;
+                var place = ticket.Reserved?.Place;
+                try
+                {
+                    pdfBytes = ticketService.Generate(
+                        ticket.Id,
+                        ticket.MovieScreening?.Movie?.Name ?? string.Empty,
+                        place?.PlaceNumber ?? 0,
+                        place?.Row?.RowNumber ?? 0,
+                        ticket.MovieScreening?.BeginningTime ?? DateTime.Now,
+                        place?.VIP ?? false,
+                        (ticket.Viewer?.Surname ?? user.Surname) + " " + (ticket.Viewer?.Name ?? user.Name)
+                    );
+                }
+                catch (Exception ex)
+                {
+                    // ignore generation errors for a single ticket
+                }
+
+                var pdfBase64 = pdfBytes != null ? Convert.ToBase64String(pdfBytes) : null;
+                ticketsForView.Add(new TicketDto(pdfBase64, ticket, place));
+            }
+
+            return View("ViewersTickets", ticketsForView);
+        }
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> CreateOrder([FromQuery] int screeningId, [FromQuery] List<int> placeIds)
         {
             bool a = User.Identity.IsAuthenticated;
@@ -84,10 +128,7 @@ namespace Cinema.Controllers
 
             // 7. Настройка сервиса билетов
             var ticketService = new Cinema.Services.TicketService();
-            if (string.IsNullOrWhiteSpace(Cinema.Services.TicketService.secretKey))
-            {
-                Cinema.Services.TicketService.secretKey = Environment.GetEnvironmentVariable("TICKET_SECRET") ?? "0123456789ABCDEF0123456789ABCDEF";
-            }
+            
 
             // 8. Генерация PDF для новых билетов
             var ticketsForView = new List<TicketDto>();

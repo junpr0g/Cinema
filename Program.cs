@@ -21,6 +21,11 @@ namespace Cinema
             var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
             var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 
+            if (string.IsNullOrWhiteSpace(Cinema.Services.TicketService.secretKey))
+            {
+                Cinema.Services.TicketService.secretKey = builder.Configuration["Ticket:Secretkey"];
+            }
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
