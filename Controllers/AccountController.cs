@@ -3,6 +3,7 @@ using Cinema.Models.ValidationModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
@@ -14,9 +15,10 @@ namespace Cinema.Controllers
     public class AccountController(Database db) : Controller
     {
         [HttpGet]
+        [Authorize]
         public IActionResult Login()
         {
-            return View();
+            return RedirectToAction("Main", "Cinema");
         }
 
         [HttpPost]

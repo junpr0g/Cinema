@@ -15,7 +15,7 @@ namespace Cinema.Controllers
     {
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> ViewersTickets()
+        public async Task<IActionResult> ViewersTickets([FromQuery] bool? vip, [FromQuery] bool? active)
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst("email")?.Value;
             var user = await db.Viewers.FirstOrDefaultAsync(v => v.Email == email);
@@ -27,7 +27,21 @@ namespace Cinema.Controllers
                 .Where(t => t.ViewerId == user.Id)
                 .ToListAsync();
 
-            var ticketService = new Cinema.Services.TicketService();          
+            if (vip == true)
+            {
+                tickets = tickets.Where(t => t.Reserved?.Place?.VIP == true).ToList();
+            }
+
+            if (active == true)
+            {
+                tickets = tickets.Where(t => t.MovieScreening != null && t.MovieScreening.BeginningTime > DateTime.Now).ToList();
+            }
+
+            var ticketService = new Cinema.Services.TicketService();
+            if (string.IsNullOrWhiteSpace(Cinema.Services.TicketService.secretKey))
+            {
+                Cinema.Services.TicketService.secretKey = Environment.GetEnvironmentVariable("TICKET_SECRET") ?? "0123456789ABCDEF0123456789ABCDEF";
+            }
 
             var ticketsForView = new List<TicketDto>();
             foreach (var ticket in tickets)
