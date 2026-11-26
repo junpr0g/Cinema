@@ -1,56 +1,303 @@
-﻿@model global::Cinema.Models.DatabaseClasses.MovieScreening
-@using global::Cinema.Models.DatabaseClasses
+﻿@using Cinema.Models.DatabaseClasses
+@model global::Cinema.Models.DatabaseClasses.MovieScreening
+
 @{
-    List<Reserved> reserveds = ViewBag.Reserved;
+    List<Reserved> reserveds = ViewBag.Reserved ?? new List<Reserved>();
     var reservedIds = reserveds.Select(r => r.PlaceId).ToHashSet();
+
+    var hallData = Model.Hall.Rows
+        .OrderBy(r => r.RowNumber)
+        .Select(r => new
+        {
+            RowNumber = r.RowNumber,
+            Places = r.Places.OrderBy(p => p.PlaceNumber)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.PlaceNumber,
+                    p.VIP,
+                    IsReserved = reservedIds.Contains(p.Id)
+                })
+        });
 }
 
-<div class="container-fluid text-light">
-    <h4 class="mb-3">Зал №@Model.Hall.Number</h4>
-    <p><strong>Начало:</strong> @Model.BeginningTime.ToString("dd.MM.yyyy HH:mm")</p>
-    <p><strong>Цена билета:</strong> @Model.Price ₽</p>
+<style>
+    .hall-container {
+        max-width: 100%;
+        overflow-x: auto;
+        padding: 1rem 0;
+        -webkit-overflow-scrolling: touch;
+    }
 
-    <hr class="border-secondary" />
+    .hall {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        min-width: 320px;
+    }
 
-    <div class="screen text-center mb-3">
-        <div class="bg-secondary text-dark fw-bold rounded-pill py-1">ЭКРАН</div>
+    .hall-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .row-number {
+        width: 2.5rem;
+        min-width: 2.5rem;
+        text-align: center;
+        font-weight: bold;
+        font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+        color: #444;
+    }
+
+    .places {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 0.35rem;
+    }
+
+    .place-btn {
+        aspect-ratio: 1 / 1;
+        width: clamp(32px, 5.5vw, 48px);
+        padding: 0;
+        font-size: clamp(0.75rem, 3.8vw, 0.95rem);
+        font-weight: 600;
+        border-radius: 6px;
+        line-height: 1;
+        touch-action: manipulation;
+        transition: all 0.15s ease;
+        border: 2px solid transparent;
+    }
+
+    .place-btn:hover:not(:disabled):not(.selected) {
+        transform: scale(1.08);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .place-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+    }
+
+    .place-btn.selected {
+        border: 2px solid #0d6efd !important;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        transform: scale(1.05);
+    }
+
+    .screen-label {
+        background: linear-gradient(180deg, #6c757d, #495057);
+        color: white;
+        font-weight: bold;
+        font-size: clamp(1.1rem, 5vw, 1.75rem);
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        letter-spacing: 1.5px;
+    }
+
+    .order-panel {
+        position: sticky;
+        bottom: 1rem;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(8px);
+        border: 1px solid #dee2e6;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        max-width: 480px;
+        margin: 0 auto;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .order-panel.hidden {
+        opacity: 0;
+        transform: translateY(30px);
+        pointer-events: none;
+    }
+
+    .legend {
+        font-size: 0.95rem;
+    }
+
+    @@media (max-width: 576px) {
+        .places { gap: 0.25rem; }
+        .hall { gap: 0.5rem; }
+        .hall-row { gap: 0.3rem; }
+        .row-number { font-size: 0.85rem; }
+        .place-btn { width: clamp(28px, 6.2vw, 38px); }
+        .order-panel { bottom: 0.5rem; margin: 0 0.5rem; }
+    }
+</style>
+
+<div class="container p-0">
+    <div class="screen mt-4 mb-2 ms-3 me-3 text-center">
+        <div class="screen-label">ЭКРАН</div>
     </div>
 
-    <div class="hall-layout d-flex flex-column align-items-center gap-2">
-        @foreach (var row in Model.Hall.Rows.OrderBy(r => r.RowNumber))
-        {
-            <div class="row d-flex justify-content-center gap-2">
-                <div class="row-label me-2 fw-bold text-secondary">@row.RowNumber</div>
+    <div class="hall-container">
+        <div class="hall mx-auto">
+            @foreach (var row in hallData)
+            {
+                <div class="hall-row">
+                    <div class="row-number">@row.RowNumber</div>
 
-                @foreach (var place in row.Places.OrderBy(p => p.PlaceNumber))
-                {
-                    bool isReserved = reservedIds.Contains(place.Id);
-                    string bgColor = isReserved ? "bg-secondary" :
-                    place.VIP ? "bg-warning text-dark" :
-                    "bg-success";
-                    <div class="seat rounded-2 @bgColor d-inline-flex justify-content-center align-items-center"
-                         style="width:30px; height:30px; cursor:pointer;"
-                         title="Место @place.PlaceNumber @(isReserved ? "(занято)" : "(свободно)")">
-                        @place.PlaceNumber
+                    <div class="places">
+                        @foreach (var place in row.Places)
+                        {
+                            var baseClass = place.IsReserved ? "btn-secondary" :
+                                            place.VIP        ? "btn-warning text-dark" :
+                                                               "btn-success";
+
+                            <button type="button"
+                                class="btn place-btn @baseClass"
+                                data-place-id="@place.Id"
+                                data-row="@row.RowNumber"
+                                data-place="@place.PlaceNumber"
+                                data-type="@(place.VIP ? "vip" : "normal")"
+                                disabled="@(place.IsReserved ? "disabled" : null)">
+                                @place.PlaceNumber
+                            </button>
+                        }
                     </div>
-                }
-            </div>
-        }
+                </div>
+            }
+        </div>
     </div>
 
-    <hr class="border-secondary mt-4" />
+    <div class="legend d-flex flex-wrap gap-3 gap-sm-4 justify-content-center mt-4 mb-5">
+        <div class="d-flex align-items-center">
+            <span class="badge bg-success px-3 py-2 me-2"> </span> Свободно
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="badge bg-secondary px-3 py-2 me-2"> </span> Занято
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="badge bg-warning text-dark px-3 py-2 me-2"> </span> VIP
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="badge bg-primary px-3 py-2 me-2"> </span> Выбрано
+        </div>
+    </div>
 
-    <div class="legend d-flex gap-3 justify-content-center">
-        <div><span class="badge bg-success">&nbsp;&nbsp;</span> Свободно</div>
-        <div><span class="badge bg-secondary">&nbsp;&nbsp;</span> Занято</div>
-        <div><span class="badge bg-warning text-dark">&nbsp;&nbsp;</span> VIP</div>
+    <!-- Панель оформления заказа (появляется снизу) -->
+    <div id="orderPanel" class="order-panel text-center hidden">
+        <div class="mb-2 fw-bold" id="selectedCount">Выбрано: 0 мест</div>
+        <button id="btnCreateOrder" class="btn btn-primary btn-lg px-5">
+            Оформить заказ
+        </button>
     </div>
 </div>
 
-<style>
-    .seat:hover {
-        transform: scale(1.15);
-        transition: transform 0.1s ease-in-out;
-        filter: brightness(1.2);
+<script>
+// Массив выбранных мест (id)
+selectedPlaces = [];
+
+// Обновление UI панели заказа
+function updateOrderPanel() {
+    const panel = document.getElementById('orderPanel');
+    const countEl = document.getElementById('selectedCount');
+    const btn = document.getElementById('btnCreateOrder');
+
+    if (selectedPlaces.length > 0) {
+        countEl.textContent = `Выбрано: ${selectedPlaces.length} мест`;
+        panel.classList.remove('hidden');
+    } else {
+        panel.classList.add('hidden');
     }
-</style>
+        updateOrderButtonText();
+}
+
+// Обработка клика по месту
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.place-btn:not(:disabled)');
+        if (!btn) return;
+
+        const placeId = Number(btn.dataset.placeId); // <-- важно
+
+        if (selectedPlaces.includes(placeId)) {
+    // снять выбор
+                selectedPlaces = selectedPlaces.filter(id => id !== placeId);
+
+                btn.classList.remove('selected', 'btn-primary');
+
+                const type = btn.dataset.type;
+
+                if (type === 'vip') {
+                    btn.classList.add('btn-warning');
+                } else {
+                    btn.classList.add('btn-success');
+                }
+
+            } else {
+                // добавить выбор
+                selectedPlaces.push(placeId);
+
+                btn.classList.add('selected');
+                btn.classList.remove('btn-success', 'btn-warning');
+                btn.classList.add('btn-primary');
+}
+
+        updateOrderPanel();
+    });
+
+
+// Оформить заказ
+document.getElementById('btnCreateOrder')?.addEventListener('click', function () {
+    if (selectedPlaces.length === 0) return;
+
+    // Подготовка данных для отправки
+    const data = {
+        ScreeningId: @Model.Id,
+        PlaceIds: selectedPlaces
+    };
+        console.log(JSON.stringify(data));    
+
+    // Построим query string и перенаправим браузер — это позволит сработать стандартному редиректу Authorize
+    const params = new URLSearchParams();
+    params.append('screeningId', data.ScreeningId);
+    data.PlaceIds.forEach(id => params.append('placeIds', id));
+
+    // Навигация — браузер перейдёт на страницу, и при отсутствии авторизации сработает redirect на логин
+    window.location.href = '/Order/CreateOrder?' + params.toString();
+});
+    function updateOrderButtonText() {
+        const btn = document.getElementById('btnCreateOrder');
+        if (!btn || selectedPlaces.length === 0) {
+            btn.textContent = 'Оформить заказ';
+            return;
+        }
+
+        // Собираем выбранные кнопки
+        const selectedBtns = Array.from(document.querySelectorAll('.place-btn.selected'));
+
+        // Группируем по рядам
+        const rowsMap = {};
+        selectedBtns.forEach(b => {
+            const row = b.dataset.row;
+            const place = parseInt(b.dataset.place);
+
+            if (!rowsMap[row]) rowsMap[row] = [];
+            rowsMap[row].push(place);
+        });
+
+        // Формируем текст
+        const parts = Object.keys(rowsMap)
+            .sort((a, b) => a - b)
+            .map(row => {
+                const places = rowsMap[row].sort((a, b) => a - b);
+                if (places.length === 1) {
+                    return `Ряд: ${row}, Место: ${places[0]}`;
+                }
+                return `Ряд: ${row}, Места: ${places.join(',')}`;
+            });
+
+        btn.textContent = `Оформить заказ (${parts.join('. ')})`;
+    }
+
+</script>
+
+<!-- Не забудь AntiForgeryToken, если используешь [ValidateAntiForgeryToken] в контроллере -->
+@Html.AntiForgeryToken()

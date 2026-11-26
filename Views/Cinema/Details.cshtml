@@ -160,13 +160,13 @@
 </div>
 <!-- Модальное окно -->
 <div class="modal fade" id="screeningModal" tabindex="-1" aria-labelledby="screeningModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content bg-dark text-light">
             <div class="modal-header">
                 <h5 class="modal-title" id="screeningModalLabel">Информация о сеансе</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <div class="modal-body" id="screeningModalBody">
+            <div class="modal-body p-0" id="screeningModalBody">
                 <!-- Сюда подгружается PartialView -->
                 <div class="text-center py-5">
                     <div class="spinner-border text-light" role="status">
@@ -177,3 +177,86 @@
         </div>
     </div>
 </div>
+
+<script>
+let selectedPlaces = [];
+function initializedPartialCheckScreeningData()
+{
+    const canvas = document.getElementById('hallCanvas');
+    const ctx = canvas.getContext('2d');
+    const hallData = JSON.parse(canvas.dataset.hall);
+    const seatWidth = 30;
+    const seatHeight = 30;
+    const seatGap = 10;
+    const seatMap = [];
+
+    function drawHall() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        seatMap.length = 0;
+
+        let y = 20;
+
+        hallData.forEach(row => {
+            let x = 20;
+
+            row.Places.forEach(place => {
+                let color = 'green';
+
+                if (place.IsReserved) color = 'gray';
+                else if (place.VIP) color = 'gold';
+
+                ctx.fillStyle = color;
+                ctx.fillRect(x, y, seatWidth, seatHeight);
+
+                seatMap.push({
+                    x: x,
+                    y: y,
+                    width: seatWidth,
+                    height: seatHeight,
+                    rowNumber: row.RowNumber,
+                    placeNumber: place.PlaceNumber,
+                    isReserved: place.IsReserved
+                });
+
+                x += seatWidth + seatGap;
+            });
+
+            y += seatHeight + seatGap;
+        });
+    }
+
+    canvas.addEventListener('click', function (e) {
+        const rect = canvas.getBoundingClientRect();
+
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+
+        const seat = seatMap.find(s =>
+            clickX >= s.x &&
+            clickX <= s.x + s.width &&
+            clickY >= s.y &&
+            clickY <= s.y + s.height
+        );
+
+        if (!seat) return;
+
+        if (seat.isReserved) {
+            alert('Место уже занято');
+            return;
+        }
+
+        SelectPlace(seat.rowNumber, seat.placeNumber);
+    });
+
+    function SelectPlace(rowNumber, placeNumber) {
+        console.log(`Выбрано: ряд ${rowNumber}, место ${placeNumber}`);
+
+        // тут дальше:
+        // • AJAX
+        // • подсветка
+        // • добавление в заказ
+    }
+
+    drawHall();
+}
+</script>

@@ -262,7 +262,7 @@ namespace Cinema.Migrations
                     b.Property<int>("PlaceNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RowId")
+                    b.Property<int>("RowId")
                         .HasColumnType("int");
 
                     b.Property<int>("SeatTypeId")
@@ -360,8 +360,11 @@ namespace Cinema.Migrations
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Ticket", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("MovieScreeningId")
                         .HasColumnType("int");
@@ -499,15 +502,19 @@ namespace Cinema.Migrations
 
             modelBuilder.Entity("Cinema.Models.DatabaseClasses.Place", b =>
                 {
-                    b.HasOne("Cinema.Models.DatabaseClasses.Row", null)
+                    b.HasOne("Cinema.Models.DatabaseClasses.Row", "Row")
                         .WithMany("Places")
-                        .HasForeignKey("RowId");
+                        .HasForeignKey("RowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Cinema.Models.DatabaseClasses.SeatType", "SeatType")
                         .WithMany()
                         .HasForeignKey("SeatTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Row");
 
                     b.Navigation("SeatType");
                 });

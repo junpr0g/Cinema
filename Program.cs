@@ -1,4 +1,7 @@
+using Cinema.Models.DatabaseClasses;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using QuestPDF.Infrastructure;
 
 namespace Cinema
 {
@@ -7,14 +10,40 @@ namespace Cinema
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            QuestPDF.Settings.License = LicenseType.Community;
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            // установка конфигурации подключения
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+
+            // Р РµРіРёСЃС‚СЂР°С†РёСЏ DbContext РІ DI
+            builder.Services.AddDbContext<Database>();
+
+            // РќР°СЃС‚СЂРѕР№РєР° Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё Google
+            var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+            var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+            if (string.IsNullOrWhiteSpace(Cinema.Services.TicketService.secretKey))
+            {
+                Cinema.Services.TicketService.secretKey = builder.Configuration["Ticket:Secretkey"];
+            }
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                })
+                .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+                {
+                    options.ClientId = googleClientId;
+                    options.ClientSecret = googleClientSecret;
+                    options.CallbackPath = "/signin-google";
+                    options.Scope.Add("https://www.googleapis.com/auth/user.phonenumbers.read");
+                    options.Scope.Add("https://www.googleapis.com/auth/user.birthday.read");
+                    options.Scope.Add("https://www.googleapis.com/auth/userinfo.profile");
+                    options.SaveTokens = true; // Р­С‚Рѕ РєСЂРёС‚РёС‡РµСЃРєРё РІР°Р¶РЅРѕ
                 });
             var app = builder.Build();
 
@@ -31,7 +60,7 @@ namespace Cinema
 
             app.UseRouting();
 
-            app.UseAuthentication();    // аутентификация
+            app.UseAuthentication();    // Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёСЏ
 
             app.UseAuthorization();
 
