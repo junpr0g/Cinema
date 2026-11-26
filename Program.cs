@@ -20,7 +20,9 @@ namespace Cinema
             // Регистрация DbContext в DI (PostgreSQL)
             builder.Services.AddDbContext<Database>(options =>
                 options.UseLazyLoadingProxies()
-                       .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+                       .UseNpgsql(
+                           builder.Configuration.GetConnectionString("DefaultConnection"),
+                           npgsqlOptions => npgsqlOptions.EnableRetryOnFailure()));
 
             // Настройка аутентификации Google
             var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
