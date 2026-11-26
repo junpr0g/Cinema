@@ -1,6 +1,7 @@
 using Cinema.Models.DatabaseClasses;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
 
 namespace Cinema
@@ -9,13 +10,17 @@ namespace Cinema
     {
         public static void Main(string[] args)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             var builder = WebApplication.CreateBuilder(args);
             QuestPDF.Settings.License = LicenseType.Community;
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Регистрация DbContext в DI
-            builder.Services.AddDbContext<Database>();
+            // Регистрация DbContext в DI (PostgreSQL)
+            builder.Services.AddDbContext<Database>(options =>
+                options.UseLazyLoadingProxies()
+                       .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Настройка аутентификации Google
             var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -46,6 +51,13 @@ namespace Cinema
                     options.SaveTokens = true; // Это критически важно
                 });
             var app = builder.Build();
+
+            if (!EF.IsDesignTime)
+            {
+                using var scope = app.Services.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<Database>();
+                DbSeeder.Seed(db);
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
