@@ -1,0 +1,978 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2640" height="2160" viewBox="0 0 2640 2160">
+  <defs>
+    <style>
+      .font-serif { font-family: 'Anthropic Serif', Georgia, 'Times New Roman', serif; }
+      .font-sans  { font-family: 'Anthropic Sans', 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
+      .font-mono  { font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, SFMono-Regular, Consolas, monospace; }
+
+      .title-main   { font-size: 25px; font-weight: 400; fill: #f4f4f5; letter-spacing: -0.3px; }
+      .title-sub    { font-size: 12px; font-weight: 400; fill: #a1a1aa; }
+      .zone-idx     { font-size: 11.5px; font-weight: 600; fill: #71717a; }
+      .zone-title   { font-size: 12px; font-weight: 600; fill: #e4e4e7; letter-spacing: 0.6px; }
+      .subzone-lbl  { font-size: 11px; font-weight: 600; fill: #71717a; letter-spacing: 0.8px; }
+      .card-title   { font-size: 14px; font-weight: 600; fill: #f4f4f5; }
+      .card-sub     { font-size: 10.5px; font-weight: 400; fill: #71717a; }
+      .sec-head     { font-size: 11.5px; font-weight: 600; fill: #e4e4e7; }
+      .item-txt     { font-size: 11.5px; fill: #a1a1aa; }
+      .item-code    { font-size: 11px; font-weight: 600; fill: #f4f4f5; }
+      .item-muted   { font-size: 10.5px; fill: #71717a; }
+      .ent-field    { font-size: 11.5px; fill: #e4e4e7; }
+      .ent-type     { font-size: 10.5px; fill: #71717a; }
+      .ent-nav      { font-size: 10.5px; font-style: italic; fill: #71717a; }
+      .badge-txt    { font-size: 9.5px; font-weight: 600; }
+      .pill-txt     { font-size: 9.5px; font-weight: 600; fill: #d4d4d8; }
+      .edge-lbl     { font-size: 10px; font-weight: 500; }
+    </style>
+
+    <marker id="arrBright" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#d4d4d8"/>
+    </marker>
+    <marker id="arrMid" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#a1a1aa"/>
+    </marker>
+    <marker id="arrDim" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#71717a"/>
+    </marker>
+    <marker id="dotDim" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5.5" markerHeight="5.5">
+      <circle cx="5" cy="5" r="3.2" fill="#71717a"/>
+    </marker>
+  </defs>
+
+  <!-- Canvas Background (bg-primary: #0e0e10) -->
+  <rect x="0" y="0" width="2640" height="2160" fill="#0e0e10"/>
+  <g>
+    <rect x="28" y="18" width="2584" height="88" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <!-- Brand-style mark echoing </> junpr0g -->
+    <text x="52" y="54" class="font-mono" font-size="16" fill="#71717a">&lt;/&gt;</text>
+    <text x="92" y="55" class="font-serif title-main">Cinema Lives Inside (CIL) — System Architecture</text>
+    <!-- Single subtle status dot (#10b981) echoing portfolio hero status -->
+    <circle cx="56" cy="79" r="3.5" fill="#10b981"/>
+    <text x="68" y="83" class="font-mono title-sub">ASP.NET Core MVC (.NET 10)  /  EF Core 10 (LazyLoadingProxies) + PostgreSQL  /  Cookie &amp; Google OAuth 2.0  /  QuestPDF + QRCoder (AES)</text>
+
+    <!-- Legend Panel inside Header -->
+    <rect x="1420" y="28" width="1174" height="68" rx="6" fill="#161618" stroke="#26262a" stroke-width="1"/>
+
+    <!-- Row 1: Arrows -->
+    <line x1="1438" y1="48" x2="1478" y2="48" stroke="#d4d4d8" stroke-width="1.8" marker-end="url(#arrBright)"/>
+    <text x="1486" y="52" class="font-mono" font-size="10.5" fill="#d4d4d8">HTTP / MVC / Data</text>
+
+    <line x1="1632" y1="48" x2="1672" y2="48" stroke="#a1a1aa" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrMid)"/>
+    <text x="1680" y="52" class="font-mono" font-size="10.5" fill="#a1a1aa">AJAX / JS / Redirect</text>
+
+    <line x1="1844" y1="48" x2="1884" y2="48" stroke="#a1a1aa" stroke-width="1.6" stroke-dasharray="2,3" marker-end="url(#arrMid)"/>
+    <text x="1892" y="52" class="font-mono" font-size="10.5" fill="#a1a1aa">Service / External API</text>
+
+    <line x1="2066" y1="48" x2="2106" y2="48" stroke="#71717a" stroke-width="1.6" marker-end="url(#arrDim)"/>
+    <text x="2114" y="52" class="font-mono" font-size="10.5" fill="#a1a1aa">DB Relation (FK → PK)</text>
+
+    <text x="2578" y="52" text-anchor="end" class="font-mono" font-size="10.5" fill="#71717a">SVG Vector (lossless)</text>
+
+    <!-- Row 2: Badges & Table Access Tags -->
+    <rect x="1438" y="66" width="24" height="16" rx="4" fill="#f4f4f5"/>
+    <text x="1450" y="77.5" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+    <text x="1468" y="78" class="font-mono" font-size="10" fill="#a1a1aa">Primary Key</text>
+
+    <rect x="1554" y="66" width="24" height="16" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1566" y="77.5" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+    <text x="1584" y="78" class="font-mono" font-size="10" fill="#a1a1aa">Foreign Key</text>
+
+    <rect x="1670" y="66" width="28" height="16" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1684" y="77.5" text-anchor="middle" class="font-mono badge-txt" fill="#a1a1aa">SFK</text>
+    <text x="1704" y="78" class="font-mono" font-size="10" fill="#a1a1aa">Shadow FK (EF)</text>
+
+    <rect x="1808" y="66" width="40" height="16" rx="4" fill="#27272a" stroke="#52525b" stroke-width="0.9"/>
+    <text x="1828" y="77.5" text-anchor="middle" class="font-mono badge-txt" fill="#f4f4f5">Auth</text>
+    <text x="1854" y="78" class="font-mono" font-size="10" fill="#a1a1aa">[Authorize]</text>
+
+    <text x="1946" y="78" class="font-mono" font-size="10" fill="#71717a">Table access:</text>
+
+    <rect x="2038" y="65" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="2047" y="77.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+    <text x="2062" y="78" class="font-mono" font-size="10" fill="#a1a1aa">CinemaCtrl</text>
+
+    <rect x="2138" y="65" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="2147" y="77.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+    <text x="2162" y="78" class="font-mono" font-size="10" fill="#a1a1aa">OrderCtrl</text>
+
+    <rect x="2232" y="65" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="2241" y="77.5" text-anchor="middle" class="font-mono pill-txt">A</text>
+    <text x="2256" y="78" class="font-mono" font-size="10" fill="#a1a1aa">AccountCtrl</text>
+
+    <rect x="2340" y="65" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="2349" y="77.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <text x="2364" y="78" class="font-mono" font-size="10" fill="#a1a1aa">DbSeeder</text>
+  </g>
+  <!-- ZONE 01 -->
+  <rect x="28" y="122" width="2584" height="228" rx="8" fill="#111114" stroke="#26262a" stroke-width="1"/>
+  <rect x="44" y="111" width="596" height="22" rx="4" fill="#1a1a1d" stroke="#3f3f46" stroke-width="1"/>
+  <text x="56" y="126" class="font-mono zone-idx">01</text>
+  <text x="78" y="126" class="font-mono zone-title">PRESENTATION LAYER  /  Razor Views • Bootstrap 5 Dark • jQuery AJAX</text>
+  <g>
+    <rect x="48" y="150" width="320" height="182" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 56 150 H 360 Q 368 150 368 158 V 196 H 48 V 158 Q 48 150 56 150 Z" fill="#1a1a1d"/>
+    <line x1="48" y1="196" x2="368" y2="196" stroke="#26262a" stroke-width="1"/>
+    <text x="62" y="170" class="font-sans card-title">Shared Layout &amp; Error</text>
+    <text x="62" y="186" class="font-mono card-sub">Views/Shared/*</text>
+    <text x="354" y="171" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">V1</text>
+  </g>
+  <text x="62" y="216" class="font-mono item-code">_Layout.cshtml</text>
+  <text x="62" y="233" class="font-sans item-txt">• Navbar: Main, ViewersTickets, Privacy</text>
+  <text x="62" y="249" class="font-sans item-txt">• Displays Claims (GivenName, Surname, Email)</text>
+  <text x="62" y="265" class="font-sans item-txt">• Auth links: Login / Logout (Cookie state)</text>
+  <line x1="62" y1="277" x2="354" y2="277" stroke="#26262a" stroke-width="1"/>
+  <text x="62" y="294" class="font-mono item-code">Error.cshtml</text>
+  <text x="154" y="294" class="font-mono item-muted">@model ErrorViewModel</text>
+  <text x="62" y="312" class="font-mono item-muted">_ViewImports • _ViewStart • ValidationScripts</text>
+  <g>
+    <rect x="392" y="150" width="508" height="182" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 400 150 H 892 Q 900 150 900 158 V 196 H 392 V 158 Q 392 150 400 150 Z" fill="#1a1a1d"/>
+    <line x1="392" y1="196" x2="900" y2="196" stroke="#26262a" stroke-width="1"/>
+    <text x="406" y="170" class="font-sans card-title">Cinema Views &amp; site.js</text>
+    <text x="406" y="186" class="font-mono card-sub">Views/Cinema/* • wwwroot/js/site.js</text>
+    <text x="886" y="171" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">V2</text>
+  </g>
+  <text x="406" y="216" class="font-mono item-code">Main.cshtml</text>
+  <text x="496" y="216" class="font-sans item-txt">— @model List&lt;MovieRental&gt;; catalog, posters, Details?id</text>
+  <text x="406" y="235" class="font-mono item-code">Details.cshtml</text>
+  <text x="514" y="235" class="font-sans item-txt">— @model Movie + ViewBag.Screening; trailer, showtimes</text>
+  <text x="406" y="254" class="font-mono item-code">PartialCheckScreeningData.cshtml</text>
+  <text x="640" y="254" class="font-sans item-txt">— @model MovieScreening + Reserved</text>
+  <text x="418" y="271" class="font-sans item-muted">Interactive hall seat grid (Available / VIP / Reserved) → CreateOrder</text>
+  <text x="406" y="290" class="font-mono item-code">site.js: CheckScreeningData(id)</text>
+  <text x="630" y="290" class="font-sans item-txt">— AJAX GET → #screeningModal</text>
+  <text x="406" y="310" class="font-mono item-code">Privacy.cshtml</text>
+  <text x="514" y="310" class="font-sans item-muted">— static privacy policy page ([Authorize])</text>
+  <g>
+    <rect x="924" y="150" width="520" height="182" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 932 150 H 1436 Q 1444 150 1444 158 V 196 H 924 V 158 Q 924 150 932 150 Z" fill="#1a1a1d"/>
+    <line x1="924" y1="196" x2="1444" y2="196" stroke="#26262a" stroke-width="1"/>
+    <text x="938" y="170" class="font-sans card-title">Order Views (Tickets &amp; PDF)</text>
+    <text x="938" y="186" class="font-mono card-sub">Views/Order/*</text>
+    <text x="1430" y="171" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">V3</text>
+  </g>
+  <text x="938" y="216" class="font-mono item-code">CreateOrder.cshtml</text>
+  <text x="1080" y="216" class="font-sans item-txt">— @model IEnumerable&lt;TicketDto&gt;</text>
+  <text x="950" y="233" class="font-sans item-muted">Renders newly booked tickets for the active order</text>
+  <text x="938" y="254" class="font-mono item-code">ViewersTickets.cshtml</text>
+  <text x="1100" y="254" class="font-sans item-txt">— @model IEnumerable&lt;TicketDto&gt;</text>
+  <text x="950" y="271" class="font-sans item-muted">User ticket history + GET filters: ?vip=true &amp; ?active=true</text>
+  <line x1="938" y1="284" x2="1430" y2="284" stroke="#26262a" stroke-width="1"/>
+  <text x="938" y="302" class="font-sans item-txt">• Inline PDF preview: <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">&lt;iframe src="data:application/pdf;base64,..."&gt;</tspan></text>
+  <text x="938" y="319" class="font-sans item-txt">• Direct file download: <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">ticket_{Id}.pdf</tspan></text>
+  <g>
+    <rect x="1468" y="150" width="640" height="182" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1476 150 H 2100 Q 2108 150 2108 158 V 196 H 1468 V 158 Q 1468 150 1476 150 Z" fill="#1a1a1d"/>
+    <line x1="1468" y1="196" x2="2108" y2="196" stroke="#26262a" stroke-width="1"/>
+    <text x="1482" y="170" class="font-sans card-title">Account Views (Authentication)</text>
+    <text x="1482" y="186" class="font-mono card-sub">Views/Account/*</text>
+    <text x="2094" y="171" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">V4</text>
+  </g>
+  <text x="1482" y="216" class="font-mono item-code">Login.cshtml</text>
+  <text x="1576" y="216" class="font-sans item-txt">— @model LoginModel (Email + Password, AntiForgeryToken)</text>
+  <text x="1494" y="234" class="font-sans item-txt">• Sign in with Google button → <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">POST /Account/GoogleLogin</tspan></text>
+  <text x="1494" y="251" class="font-sans item-txt">• Navigation link to local registration view</text>
+  <line x1="1482" y1="264" x2="2094" y2="264" stroke="#26262a" stroke-width="1"/>
+  <text x="1482" y="282" class="font-mono item-code">Register.cshtml</text>
+  <text x="1598" y="282" class="font-sans item-txt">— @model RegisterModel (POST /Account/Register)</text>
+  <text x="1494" y="300" class="font-sans item-muted">Fields: Email, Password, ConfirmPassword, Name, Surname, PhoneNumber, Birthday</text>
+  <text x="1494" y="317" class="font-sans item-muted">Client &amp; server validation via DataAnnotations + jQuery Unobtrusive</text>
+  <g>
+    <rect x="2132" y="150" width="460" height="182" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 2140 150 H 2584 Q 2592 150 2592 158 V 196 H 2132 V 158 Q 2132 150 2140 150 Z" fill="#1a1a1d"/>
+    <line x1="2132" y1="196" x2="2592" y2="196" stroke="#26262a" stroke-width="1"/>
+    <text x="2146" y="170" class="font-sans card-title">Browser Runtime &amp; Static Assets</text>
+    <text x="2146" y="186" class="font-mono card-sub">wwwroot/* • HTTP/HTTPS</text>
+    <text x="2578" y="171" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">V5</text>
+  </g>
+  <text x="2146" y="216" class="font-sans item-txt">• Local endpoints: <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">localhost:5233</tspan> (HTTP) / <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">7013</tspan> (HTTPS)</text>
+  <text x="2146" y="236" class="font-sans item-txt">• <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">wwwroot/images/*.jpg</tspan> — 10 movie poster assets</text>
+  <text x="2146" y="256" class="font-sans item-txt">• <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">wwwroot/css/site.css</tspan>, <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">lib/bootstrap</tspan>, <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">lib/jquery</tspan></text>
+  <text x="2146" y="276" class="font-sans item-txt">• Stores <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">ApplicationCookie</tspan> &amp; saved OAuth tokens</text>
+  <text x="2146" y="296" class="font-sans item-txt">• Native browser PDF renderer for embedded tickets</text>
+  <text x="2146" y="316" class="font-sans item-muted">Requests routed through ASP.NET Core middleware pipeline</text>
+  <!-- ZONE 02 -->
+  <rect x="28" y="400" width="2584" height="426" rx="8" fill="#111114" stroke="#26262a" stroke-width="1"/>
+  <rect x="44" y="389" width="654" height="22" rx="4" fill="#1a1a1d" stroke="#3f3f46" stroke-width="1"/>
+  <text x="56" y="404" class="font-mono zone-idx">02</text>
+  <text x="78" y="404" class="font-mono zone-title">APPLICATION LAYER  /  Pipeline • Controllers • Services • DTOs • Integrations</text>
+  <g>
+    <rect x="48" y="428" width="320" height="380" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 56 428 H 360 Q 368 428 368 436 V 474 H 48 V 436 Q 48 428 56 428 Z" fill="#1a1a1d"/>
+    <line x1="48" y1="474" x2="368" y2="474" stroke="#26262a" stroke-width="1"/>
+    <text x="62" y="448" class="font-sans card-title">Program.cs (Startup &amp; DI)</text>
+    <text x="62" y="464" class="font-mono card-sub">ASP.NET Core Pipeline</text>
+    <text x="354" y="449" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">00</text>
+  </g>
+  <text x="62" y="494" class="font-sans sec-head">Dependency Injection:</text>
+  <text x="62" y="512" class="font-mono item-txt">• AddControllersWithViews()</text>
+  <text x="62" y="529" class="font-mono item-txt">• AddDbContext&lt;Database&gt;()</text>
+  <text x="74" y="544" class="font-sans item-muted">Npgsql + LazyLoadingProxies + Retry</text>
+  <text x="62" y="562" class="font-mono item-txt">• AddAuthentication()</text>
+  <text x="74" y="577" class="font-sans item-muted">Default: Cookie (/Account/Login)</text>
+  <text x="74" y="592" class="font-sans item-muted">Challenge: Google (/signin-google)</text>
+  <text x="74" y="607" class="font-sans item-muted">SaveTokens=true + People API scopes</text>
+  <text x="62" y="625" class="font-sans item-txt">• QuestPDF LicenseType.Community</text>
+  <text x="62" y="642" class="font-sans item-txt">• TicketService.secretKey ← Config</text>
+
+  <line x1="62" y1="654" x2="354" y2="654" stroke="#26262a" stroke-width="1"/>
+  <text x="62" y="672" class="font-sans sec-head">Startup Seeding:</text>
+  <text x="62" y="689" class="font-mono item-txt">if (!EF.IsDesignTime)</text>
+  <text x="74" y="705" class="font-mono item-code">DbSeeder.Seed(db);</text>
+
+  <line x1="62" y1="717" x2="354" y2="717" stroke="#26262a" stroke-width="1"/>
+  <text x="62" y="735" class="font-sans sec-head">HTTP Middleware Pipeline:</text>
+  <text x="62" y="752" class="font-sans item-txt">1. ExceptionHandler(/Cinema/Error) / HSTS</text>
+  <text x="62" y="768" class="font-sans item-txt">2. HttpsRedirection → StaticFiles → Routing</text>
+  <text x="62" y="784" class="font-sans item-txt">3. Authentication → Authorization</text>
+  <text x="62" y="800" class="font-mono item-muted">Default: {Cinema}/{Main}/{id?}</text>
+  <g>
+    <rect x="392" y="428" width="396" height="380" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 400 428 H 780 Q 788 428 788 436 V 474 H 392 V 436 Q 392 428 400 428 Z" fill="#1a1a1d"/>
+    <line x1="392" y1="474" x2="788" y2="474" stroke="#26262a" stroke-width="1"/>
+    <text x="406" y="448" class="font-sans card-title">CinemaController</text>
+    <text x="406" y="464" class="font-mono card-sub">Controllers/CinemaController.cs</text>
+    <text x="774" y="449" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">C</text>
+  </g>
+  <text x="406" y="493" class="font-mono item-muted">DI: ILogger&lt;CinemaController&gt;, Database _db</text>
+  <line x1="406" y1="502" x2="774" y2="502" stroke="#26262a" stroke-width="1"/>
+  <rect x="406" y="511" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="422" y="522" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <text x="444" y="523" class="font-mono item-code">Main()</text>
+  <text x="418" y="540" class="font-sans item-txt">Queries <tspan class="font-mono" fill="#e4e4e7">_db.MovieRentals</tspan> (RentalEnd &gt; Now)</text>
+  <text x="418" y="555" class="font-sans item-muted">→ View(List&lt;MovieRental&gt;) [Main.cshtml]</text>
+  <rect x="406" y="569" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="422" y="580" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <text x="444" y="581" class="font-mono item-code">Details(int id)</text>
+  <text x="418" y="598" class="font-sans item-txt">Queries <tspan class="font-mono" fill="#e4e4e7">_db.Movies</tspan> + <tspan class="font-mono" fill="#e4e4e7">_db.MovieScreenings</tspan></text>
+  <text x="418" y="613" class="font-sans item-muted">→ ViewBag.Screening + View(Movie) [Details]</text>
+  <rect x="406" y="627" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="422" y="638" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <rect x="444" y="627" width="38" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="463" y="638" text-anchor="middle" class="font-mono badge-txt" fill="#d4d4d8">AJAX</text>
+  <text x="488" y="639" class="font-mono item-code">PartialCheckScreeningData(id)</text>
+  <text x="418" y="656" class="font-sans item-txt">Queries <tspan class="font-mono" fill="#e4e4e7">MovieScreenings.Include(Hall)</tspan></text>
+  <text x="418" y="671" class="font-sans item-txt">and <tspan class="font-mono" fill="#e4e4e7">_db.Reserveds</tspan> (occupied seats)</text>
+  <text x="418" y="686" class="font-sans item-muted">→ PartialView(MovieScreening) + ViewBag.Reserved</text>
+  <rect x="406" y="701" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="422" y="712" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <rect x="444" y="701" width="40" height="15" rx="4" fill="#27272a" stroke="#52525b" stroke-width="0.9"/>
+  <text x="464" y="712" text-anchor="middle" class="font-mono badge-txt" fill="#f4f4f5">Auth</text>
+  <text x="490" y="713" class="font-mono item-code">Privacy()</text>
+  <text x="418" y="729" class="font-sans item-muted">→ View() [Privacy.cshtml]</text>
+  <rect x="406" y="743" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="422" y="754" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <text x="444" y="755" class="font-mono item-code">Error()</text>
+  <text x="418" y="772" class="font-sans item-muted">[ResponseCache(NoStore)] → View(ErrorViewModel)</text>
+  <g>
+    <rect x="812" y="428" width="428" height="380" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 820 428 H 1232 Q 1240 428 1240 436 V 474 H 812 V 436 Q 812 428 820 428 Z" fill="#1a1a1d"/>
+    <line x1="812" y1="474" x2="1240" y2="474" stroke="#26262a" stroke-width="1"/>
+    <text x="826" y="448" class="font-sans card-title">OrderController</text>
+    <text x="826" y="464" class="font-mono card-sub">Controllers/OrderController.cs</text>
+    <text x="1226" y="449" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">O</text>
+  </g>
+  <text x="826" y="493" class="font-mono item-muted">DI: Database db  •  Instantiates: new TicketService()</text>
+  <line x1="826" y1="502" x2="1226" y2="502" stroke="#26262a" stroke-width="1"/>
+  <rect x="826" y="511" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="842" y="522" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <rect x="864" y="511" width="40" height="15" rx="4" fill="#27272a" stroke="#52525b" stroke-width="0.9"/>
+  <text x="884" y="522" text-anchor="middle" class="font-mono badge-txt" fill="#f4f4f5">Auth</text>
+  <text x="910" y="523" class="font-mono item-code">CreateOrder(screeningId, placeIds[])</text>
+  <text x="838" y="542" class="font-sans item-txt">1. Validates placeIds; loads <tspan class="font-mono" fill="#e4e4e7">MovieScreenings (+Movie)</tspan></text>
+  <text x="838" y="559" class="font-sans item-txt">2. Checks seat conflicts via <tspan class="font-mono" fill="#e4e4e7">Reserveds.AnyAsync(IsUsed)</tspan></text>
+  <text x="838" y="576" class="font-sans item-txt">3. Resolves <tspan class="font-mono" fill="#e4e4e7">Viewer</tspan> by ClaimTypes.Email</text>
+  <text x="838" y="593" class="font-sans item-txt">4. Loads <tspan class="font-mono" fill="#e4e4e7">Places (+Row)</tspan>, creates <tspan class="font-mono" fill="#e4e4e7">Reserved</tspan> (15m TTL)</text>
+  <text x="850" y="608" class="font-sans item-txt">and <tspan class="font-mono" fill="#e4e4e7">Ticket</tspan> → <tspan class="font-mono" fill="#e4e4e7">db.SaveChangesAsync()</tspan></text>
+  <text x="838" y="625" class="font-sans item-txt">5. <tspan class="font-mono" fill="#e4e4e7">TicketService.Generate()</tspan> → Base64 PDF → <tspan class="font-mono" fill="#e4e4e7">TicketDto</tspan></text>
+  <text x="838" y="641" class="font-sans item-muted">→ View("CreateOrder", List&lt;TicketDto&gt;)</text>
+  <line x1="826" y1="654" x2="1226" y2="654" stroke="#26262a" stroke-width="1"/>
+  <rect x="826" y="665" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="842" y="676" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <rect x="864" y="665" width="40" height="15" rx="4" fill="#27272a" stroke="#52525b" stroke-width="0.9"/>
+  <text x="884" y="676" text-anchor="middle" class="font-mono badge-txt" fill="#f4f4f5">Auth</text>
+  <text x="910" y="677" class="font-mono item-code">ViewersTickets(bool? vip, bool? active)</text>
+  <text x="838" y="696" class="font-sans item-txt">1. Resolves <tspan class="font-mono" fill="#e4e4e7">Viewer</tspan> by ClaimTypes.Email</text>
+  <text x="838" y="713" class="font-sans item-txt">2. Eager-loads <tspan class="font-mono" fill="#e4e4e7">Tickets</tspan> graph:</text>
+  <text x="850" y="729" class="font-mono item-muted">Reserved→Place→Row, MovieScreening→Movie</text>
+  <text x="838" y="747" class="font-sans item-txt">3. Filters by Place.VIP and BeginningTime &gt; Now</text>
+  <text x="838" y="764" class="font-sans item-txt">4. Generates PDFs on the fly (<tspan class="font-mono" fill="#e4e4e7">TicketService</tspan>) → <tspan class="font-mono" fill="#e4e4e7">TicketDto</tspan></text>
+  <text x="838" y="781" class="font-sans item-muted">→ View("ViewersTickets", List&lt;TicketDto&gt;)</text>
+  <g>
+    <rect x="1272" y="428" width="376" height="194" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1280 428 H 1640 Q 1648 428 1648 436 V 474 H 1272 V 436 Q 1272 428 1280 428 Z" fill="#1a1a1d"/>
+    <line x1="1272" y1="474" x2="1648" y2="474" stroke="#26262a" stroke-width="1"/>
+    <text x="1286" y="448" class="font-sans card-title">TicketService</text>
+    <text x="1286" y="464" class="font-mono card-sub">Services/TicketService.cs</text>
+    <text x="1634" y="449" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">SVC</text>
+  </g>
+  <text x="1286" y="493" class="font-mono item-muted">static secretKey (Config / env TICKET_SECRET)</text>
+  <text x="1286" y="511" class="font-mono" font-size="10" font-weight="600" fill="#f4f4f5">record TicketData(Id,Movie,Place,Row,Date,IsVip,Viewer)</text>
+  <line x1="1286" y1="520" x2="1634" y2="520" stroke="#26262a" stroke-width="1"/>
+  <text x="1286" y="538" class="font-mono item-code">Generate(...) → byte[] PDF</text>
+  <text x="1286" y="555" class="font-sans item-txt">1. JSON-serializes <tspan class="font-mono" fill="#e4e4e7">TicketData</tspan> payload</text>
+  <text x="1286" y="571" class="font-sans item-txt">2. <tspan class="font-mono" fill="#e4e4e7">EncryptString()</tspan> — AES encryption → Base64</text>
+  <text x="1286" y="587" class="font-sans item-txt">3. <tspan class="font-mono" fill="#e4e4e7">GenerateQrCode()</tspan> — QRCoder (ECC M, PNG)</text>
+  <text x="1286" y="603" class="font-sans item-txt">4. QuestPDF A4 in-memory (VIP Dark / Std Light)</text>
+  <g>
+    <rect x="1272" y="634" width="376" height="174" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1280 634 H 1640 Q 1648 634 1648 642 V 680 H 1272 V 642 Q 1272 634 1280 634 Z" fill="#1a1a1d"/>
+    <line x1="1272" y1="680" x2="1648" y2="680" stroke="#26262a" stroke-width="1"/>
+    <text x="1286" y="654" class="font-sans card-title">DTO, Validation &amp; Response Models</text>
+    <text x="1286" y="670" class="font-mono card-sub">Models/DTOs • ValidationModels • Responses</text>
+    <text x="1634" y="655" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">DTO</text>
+  </g>
+  <text x="1286" y="700" class="font-mono item-code">TicketDto</text>
+  <text x="1354" y="700" class="font-mono item-muted">(PdfBase64, Ticket, Place)</text>
+  <text x="1286" y="720" class="font-mono item-code">LoginModel</text>
+  <text x="1366" y="720" class="font-mono item-muted">(Email, Password)</text>
+  <text x="1286" y="740" class="font-mono item-code">RegisterModel</text>
+  <text x="1386" y="740" class="font-mono item-muted">(Email, Password, Confirm,</text>
+  <text x="1386" y="755" class="font-mono item-muted">Name, Surname, Phone, Birthday)</text>
+  <text x="1286" y="775" class="font-mono item-code">CreateOrderResponse</text>
+  <text x="1426" y="775" class="font-sans" font-size="10" fill="#71717a">(ScreeningId, PlaceIds) *unused</text>
+  <text x="1286" y="795" class="font-mono item-code">ErrorViewModel</text>
+  <text x="1396" y="795" class="font-mono item-muted">(RequestId, ShowRequestId)</text>
+  <g>
+    <rect x="1674" y="428" width="434" height="380" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1682 428 H 2100 Q 2108 428 2108 436 V 474 H 1674 V 436 Q 1674 428 1682 428 Z" fill="#1a1a1d"/>
+    <line x1="1674" y1="474" x2="2108" y2="474" stroke="#26262a" stroke-width="1"/>
+    <text x="1688" y="448" class="font-sans card-title">AccountController</text>
+    <text x="1688" y="464" class="font-mono card-sub">Controllers/AccountController.cs</text>
+    <text x="2094" y="449" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">A</text>
+  </g>
+  <text x="1688" y="493" class="font-mono item-muted">DI: Database db  •  HttpClient (Google People API)</text>
+  <line x1="1688" y1="502" x2="2094" y2="502" stroke="#26262a" stroke-width="1"/>
+  <rect x="1688" y="511" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1704" y="522" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <rect x="1726" y="511" width="40" height="15" rx="4" fill="#27272a" stroke="#52525b" stroke-width="0.9"/>
+  <text x="1746" y="522" text-anchor="middle" class="font-mono badge-txt" fill="#f4f4f5">Auth</text>
+  <text x="1772" y="523" class="font-mono item-code">Login()</text>
+  <text x="1700" y="539" class="font-sans item-muted">Triggers Google challenge if anonymous; else redirects to Main</text>
+  <rect x="1688" y="552" width="38" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1707" y="563" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">POST</text>
+  <text x="1732" y="564" class="font-mono item-code">Login(LoginModel)</text>
+  <text x="1700" y="580" class="font-sans item-txt">Checks <tspan class="font-mono" fill="#e4e4e7">db.Viewers</tspan> (Email+Password) → <tspan class="font-mono" fill="#e4e4e7">Authenticate()</tspan></text>
+  <rect x="1688" y="593" width="38" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1707" y="604" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">POST</text>
+  <text x="1732" y="605" class="font-mono item-code">GoogleLogin()</text>
+  <text x="1700" y="621" class="font-sans item-txt">Challenge(GoogleDefaults, prompt=consent) → GoogleResponse</text>
+  <rect x="1688" y="634" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1704" y="645" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <text x="1726" y="646" class="font-mono item-code">GoogleResponse()</text>
+  <text x="1700" y="663" class="font-sans item-txt">1. Reads Claims &amp; <tspan class="font-mono" fill="#e4e4e7">access_token</tspan> from Cookie</text>
+  <text x="1700" y="679" class="font-sans item-txt">2. HTTP GET → <tspan class="font-mono" fill="#e4e4e7">Google People API</tspan> (phone, birthday)</text>
+  <text x="1700" y="695" class="font-sans item-txt">3. Upserts <tspan class="font-mono" fill="#e4e4e7">Viewer</tspan> in <tspan class="font-mono" fill="#e4e4e7">db.Viewers</tspan> → <tspan class="font-mono" fill="#e4e4e7">Authenticate()</tspan> → Main</text>
+  <rect x="1688" y="708" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1704" y="719" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <rect x="1726" y="708" width="38" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1745" y="719" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">POST</text>
+  <text x="1770" y="720" class="font-mono item-code">Register(RegisterModel)</text>
+  <text x="1700" y="736" class="font-sans item-txt">Validates unique Email → inserts <tspan class="font-mono" fill="#e4e4e7">Viewer</tspan> → Cookie sign-in</text>
+  <rect x="1688" y="749" width="32" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1704" y="760" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">GET</text>
+  <text x="1726" y="761" class="font-mono item-code">Logout()</text>
+  <text x="1802" y="761" class="font-sans item-muted">SignOutAsync(Cookie) → Login</text>
+  <text x="1688" y="783" class="font-mono item-muted">private Authenticate(): ClaimsIdentity (ApplicationCookie)</text>
+  <g>
+    <rect x="2148" y="428" width="444" height="380" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 2156 428 H 2584 Q 2592 428 2592 436 V 474 H 2148 V 436 Q 2148 428 2156 428 Z" fill="#1a1a1d"/>
+    <line x1="2148" y1="474" x2="2592" y2="474" stroke="#26262a" stroke-width="1"/>
+    <text x="2162" y="448" class="font-sans card-title">External Services &amp; Libraries</text>
+    <text x="2162" y="464" class="font-mono card-sub">OAuth • REST API • PDF/QR • PostgreSQL</text>
+    <text x="2578" y="449" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">EXT</text>
+  </g>
+  <rect x="2162" y="486" width="416" height="72" rx="6" fill="#161618" stroke="#26262a" stroke-width="1"/>
+  <text x="2174" y="505" class="font-sans sec-head">Google OAuth 2.0  (/signin-google)</text>
+  <text x="2174" y="522" class="font-sans item-txt">External authentication provider &amp; access_token issuance</text>
+  <text x="2174" y="539" class="font-mono item-muted">Scopes: userinfo.profile, phonenumbers.read, birthday.read</text>
+
+  <rect x="2162" y="568" width="416" height="66" rx="6" fill="#161618" stroke="#26262a" stroke-width="1"/>
+  <text x="2174" y="587" class="font-sans sec-head">Google People API  (REST / Bearer)</text>
+  <text x="2174" y="604" class="font-mono item-muted">GET people.googleapis.com/v1/people/me</text>
+  <text x="2174" y="621" class="font-sans item-txt">personFields=phoneNumbers,birthdays → enriches Viewer</text>
+
+  <rect x="2162" y="644" width="416" height="62" rx="6" fill="#161618" stroke="#26262a" stroke-width="1"/>
+  <text x="2174" y="663" class="font-sans sec-head">QuestPDF (2026.2.1) &amp; QRCoder (1.7.0)</text>
+  <text x="2174" y="680" class="font-sans item-txt">In-memory A4 PDF rendering + PNG QR code generation</text>
+  <text x="2174" y="695" class="font-sans item-muted">Encodes AES-encrypted JSON ticket payload</text>
+
+  <rect x="2162" y="716" width="416" height="72" rx="6" fill="#1a1a1d" stroke="#3f3f46" stroke-width="1"/>
+  <text x="2174" y="736" class="font-sans sec-head">PostgreSQL  (localhost:5432 / cinema)</text>
+  <text x="2174" y="753" class="font-mono item-muted">Npgsql.EntityFrameworkCore.PostgreSQL 10.0.3</text>
+  <text x="2174" y="770" class="font-sans item-txt">Migration: <tspan class="font-mono" font-size="10.5" fill="#e4e4e7">20261120063529_InitialPostgres</tspan> (16 tables)</text>
+  <path d="M 208 332 V 426" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)" marker-start="url(#arrBright)"/>
+  <rect x="126.5" y="362" width="163" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="208" y="375" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">HTTP / Layout / Error</text>
+  <path d="M 560 332 V 426" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)" marker-start="url(#arrBright)"/>
+  <rect x="444" y="362" width="232" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="560" y="375" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">GET Main, Details, AJAX Partial</text>
+  <path d="M 820 332 V 364 H 916 V 426" fill="none" stroke="#a1a1aa" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5,3" marker-end="url(#arrMid)"/>
+  <rect x="779.5" y="354" width="177" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="868" y="367" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">JS → /Order/CreateOrder</text>
+  <path d="M 1110 332 V 426" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)" marker-start="url(#arrBright)"/>
+  <rect x="983.5" y="362" width="253" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1110" y="375" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">GET Orders / Tickets → TicketDto[]</text>
+  <path d="M 1840 332 V 426" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)" marker-start="url(#arrBright)"/>
+  <rect x="1696.5" y="362" width="287" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1840" y="375" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">Login / Register / GoogleLogin / Logout</text>
+  <path d="M 1240 520 H 1270" fill="none" stroke="#a1a1aa" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3,3" marker-end="url(#arrMid)"/>
+  <path d="M 1240 690 H 1270" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)"/>
+  <path d="M 1674 700 H 1650" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)"/>
+  <path d="M 2108 520 H 2146" fill="none" stroke="#a1a1aa" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3,3" marker-end="url(#arrMid)" marker-start="url(#arrMid)"/>
+  <path d="M 2108 596 H 2146" fill="none" stroke="#a1a1aa" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3,3" marker-end="url(#arrMid)"/>
+  <path d="M 1460 428 V 414 H 2360 V 426" fill="none" stroke="#a1a1aa" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3,3" marker-end="url(#arrMid)"/>
+  <rect x="1783.5" y="404" width="253" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1910" y="417" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">TicketService → QuestPDF + QRCoder</text>
+  <!-- DATA ACCESS GATEWAY BUS -->
+  <g>
+    <rect x="28" y="858" width="2584" height="46" rx="8" fill="#1a1a1d" stroke="#3f3f46" stroke-width="1"/>
+    <text x="52" y="886" class="font-mono" font-size="13.5" font-weight="600" fill="#f4f4f5">Database : DbContext</text>
+    <text x="236" y="886" class="font-mono" font-size="11.5" fill="#a1a1aa">Models/DatabaseClasses/Database.cs</text>
+    <text x="510" y="886" class="font-mono" font-size="11.5" fill="#71717a">/  15 DbSet&lt;T&gt; + 1 Join Table (MovieGenres)  /  UseLazyLoadingProxies()  /  EnableRetryOnFailure()  /  PostgreSQL</text>
+  </g>
+  <path d="M 208 808 V 856" fill="none" stroke="#a1a1aa" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3,3" marker-end="url(#arrMid)"/>
+  <rect x="140.5" y="824" width="135" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="208" y="837" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">DbSeeder.Seed(db)</text>
+  <path d="M 590 808 V 856" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)"/>
+  <rect x="405" y="824" width="370" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="590" y="837" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">READ: Rentals, Movies, Screenings, Halls, Reserveds</text>
+  <path d="M 1026 808 V 856" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)"/>
+  <rect x="837.5" y="824" width="377" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1026" y="837" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">R/W: Screenings, Viewers, Places, Reserveds, Tickets</text>
+  <path d="M 1894 808 V 856" fill="none" stroke="#d4d4d8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)"/>
+  <rect x="1747" y="824" width="294" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1894" y="837" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">R/W: Viewers (Login / Register / Google)</text>
+  <path d="M 2370 858 V 810" fill="none" stroke="#d4d4d8" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrBright)" marker-start="url(#arrBright)"/>
+  <rect x="2281.5" y="824" width="177" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="2370" y="837" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">SQL / Npgsql EF Core 10</text>
+  <!-- ZONE 03 -->
+  <rect x="28" y="924" width="2584" height="1212" rx="8" fill="#111114" stroke="#26262a" stroke-width="1"/>
+  <rect x="44" y="913" width="690" height="22" rx="4" fill="#1a1a1d" stroke="#3f3f46" stroke-width="1"/>
+  <text x="56" y="928" class="font-mono zone-idx">03</text>
+  <text x="78" y="928" class="font-mono zone-title">DATA LAYER  /  All 15 Entities + MovieGenres Join Table (PostgreSQL • EF Core)</text>
+
+  <!-- Sub-cluster frames (subtle hairline dashed boundaries) -->
+  <rect x="46" y="944" width="744" height="1148" rx="8" fill="#0e0e10" fill-opacity="0.55" stroke="#26262a" stroke-width="1" stroke-dasharray="5,4"/>
+  <text x="62" y="966" class="font-mono subzone-lbl">CATALOG &amp; VENUE METADATA (7 TABLES)</text>
+
+  <rect x="812" y="944" width="388" height="712" rx="8" fill="#0e0e10" fill-opacity="0.55" stroke="#26262a" stroke-width="1" stroke-dasharray="5,4"/>
+  <text x="828" y="966" class="font-mono subzone-lbl">SCHEDULING (2 TABLES)</text>
+
+  <rect x="1222" y="944" width="934" height="712" rx="8" fill="#0e0e10" fill-opacity="0.55" stroke="#26262a" stroke-width="1" stroke-dasharray="5,4"/>
+  <text x="1238" y="966" class="font-mono subzone-lbl">VIEWERS, RESERVATIONS &amp; TICKETS (3 TABLES)</text>
+
+  <rect x="812" y="1676" width="1344" height="416" rx="8" fill="#0e0e10" fill-opacity="0.55" stroke="#26262a" stroke-width="1" stroke-dasharray="5,4"/>
+  <text x="828" y="1698" class="font-mono subzone-lbl">HALL GEOMETRY &amp; SEATING (4 TABLES)</text>
+  <g>
+    <rect x="64" y="986" width="288" height="115" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 72 986 H 344 Q 352 986 352 994 V 1020 H 64 V 994 Q 64 986 72 986 Z" fill="#1a1a1d"/>
+    <line x1="64" y1="1020" x2="352" y2="1020" stroke="#26262a" stroke-width="1"/>
+    <text x="78" y="1008" class="font-sans card-title">AgeLimit</text>
+    <rect x="324" y="994" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="333" y="1006.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+  </g>
+  <rect x="76" y="1025" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="88" y="1036" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="106" y="1037" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="340" y="1037" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="76" y="1058" class="font-mono ent-field">Name</text>
+  <text x="340" y="1058" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="76" y="1079" class="font-mono ent-field">Value</text>
+  <text x="340" y="1079" text-anchor="end" class="font-mono ent-type">int</text>
+  <g>
+    <rect x="422" y="986" width="348" height="115" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 430 986 H 762 Q 770 986 770 994 V 1020 H 422 V 994 Q 422 986 430 986 Z" fill="#1a1a1d"/>
+    <line x1="422" y1="1020" x2="770" y2="1020" stroke="#26262a" stroke-width="1"/>
+    <text x="436" y="1008" class="font-sans card-title">Localisation</text>
+    <rect x="742" y="994" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="751" y="1006.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="720" y="994" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="729" y="1006.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="434" y="1025" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="446" y="1036" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="464" y="1037" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="758" y="1037" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="434" y="1058" class="font-mono ent-field">Name</text>
+  <text x="758" y="1058" text-anchor="end" class="font-mono ent-type">string</text>
+  <rect x="434" y="1067" width="28" height="15" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="448" y="1078" text-anchor="middle" class="font-mono badge-txt" fill="#a1a1aa">SFK</text>
+  <text x="468" y="1079" class="font-mono ent-field">MovieId</text>
+  <text x="758" y="1079" text-anchor="end" class="font-mono ent-type">int?</text>
+  <g>
+    <rect x="168" y="1206" width="396" height="220" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 176 1206 H 556 Q 564 1206 564 1214 V 1240 H 168 V 1214 Q 168 1206 176 1206 Z" fill="#1a1a1d"/>
+    <line x1="168" y1="1240" x2="564" y2="1240" stroke="#26262a" stroke-width="1"/>
+    <text x="182" y="1228" class="font-sans card-title">Movie</text>
+    <rect x="536" y="1214" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="545" y="1226.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="514" y="1214" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="523" y="1226.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+    <rect x="492" y="1214" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="501" y="1226.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="180" y="1245" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="192" y="1256" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="210" y="1257" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="552" y="1257" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="180" y="1278" class="font-mono ent-field">Name</text>
+  <text x="552" y="1278" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="180" y="1299" class="font-mono ent-field">Description</text>
+  <text x="552" y="1299" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="180" y="1320" class="font-mono ent-field">Timing</text>
+  <text x="552" y="1320" text-anchor="end" class="font-mono ent-type">TimeSpan</text>
+  <text x="180" y="1341" class="font-mono ent-field">TrailerPath</text>
+  <text x="552" y="1341" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="180" y="1362" class="font-mono ent-field">PosterPath</text>
+  <text x="552" y="1362" text-anchor="end" class="font-mono ent-type">string</text>
+  <rect x="180" y="1371" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="192" y="1382" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="210" y="1383" class="font-mono ent-field">AgeLimitId</text>
+  <text x="552" y="1383" text-anchor="end" class="font-mono ent-type">int</text>
+  <line x1="180" y1="1390" x2="552" y2="1390" stroke="#26262a" stroke-width="1"/>
+  <text x="180" y="1404" class="font-sans ent-nav">nav: AgeLimit, Localisations[], Genres[]</text>
+  <g>
+    <rect x="64" y="1538" width="288" height="115" rx="8" fill="#161618" stroke="#3f3f46" stroke-width="1" stroke-dasharray="5,4"/>
+    <path d="M 72 1538 H 344 Q 352 1538 352 1546 V 1572 H 64 V 1546 Q 64 1538 72 1538 Z" fill="#1e1e22"/>
+    <line x1="64" y1="1572" x2="352" y2="1572" stroke="#3f3f46" stroke-width="1"/>
+    <text x="78" y="1560" class="font-sans card-title">MovieGenres</text>
+  </g>
+  <rect x="76" y="1577" width="40" height="15" rx="4" fill="#27272a" stroke="#52525b" stroke-width="0.9"/>
+  <text x="96" y="1588" text-anchor="middle" class="font-mono badge-txt" fill="#f4f4f5">PK,FK</text>
+  <text x="122" y="1589" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">MovieId</text>
+  <text x="340" y="1589" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="76" y="1598" width="40" height="15" rx="4" fill="#27272a" stroke="#52525b" stroke-width="0.9"/>
+  <text x="96" y="1609" text-anchor="middle" class="font-mono badge-txt" fill="#f4f4f5">PK,FK</text>
+  <text x="122" y="1610" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">GenreId</text>
+  <text x="340" y="1610" text-anchor="end" class="font-mono ent-type">int</text>
+  <line x1="76" y1="1617" x2="340" y2="1617" stroke="#26262a" stroke-width="1"/>
+  <text x="76" y="1631" class="font-sans ent-nav">Join Table (M:N via OnModelCreating)</text>
+  <g>
+    <rect x="422" y="1538" width="348" height="136" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 430 1538 H 762 Q 770 1538 770 1546 V 1572 H 422 V 1546 Q 422 1538 430 1538 Z" fill="#1a1a1d"/>
+    <line x1="422" y1="1572" x2="770" y2="1572" stroke="#26262a" stroke-width="1"/>
+    <text x="436" y="1560" class="font-sans card-title">Genre</text>
+    <rect x="742" y="1546" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="751" y="1558.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="720" y="1546" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="729" y="1558.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="434" y="1577" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="446" y="1588" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="464" y="1589" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="758" y="1589" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="434" y="1610" class="font-mono ent-field">Name</text>
+  <text x="758" y="1610" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="434" y="1631" class="font-mono ent-field">Description</text>
+  <text x="758" y="1631" text-anchor="end" class="font-mono ent-type">string</text>
+  <line x1="434" y1="1638" x2="758" y2="1638" stroke="#26262a" stroke-width="1"/>
+  <text x="434" y="1652" class="font-sans ent-nav">nav: Movies[]</text>
+  <g>
+    <rect x="64" y="1816" width="304" height="157" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 72 1816 H 360 Q 368 1816 368 1824 V 1850 H 64 V 1824 Q 64 1816 72 1816 Z" fill="#1a1a1d"/>
+    <line x1="64" y1="1850" x2="368" y2="1850" stroke="#26262a" stroke-width="1"/>
+    <text x="78" y="1838" class="font-sans card-title">Cinema</text>
+    <rect x="340" y="1824" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="349" y="1836.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+  </g>
+  <rect x="76" y="1855" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="88" y="1866" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="106" y="1867" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="356" y="1867" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="76" y="1888" class="font-mono ent-field">Name</text>
+  <text x="356" y="1888" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="76" y="1909" class="font-mono ent-field">Adress</text>
+  <text x="356" y="1909" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="76" y="1930" class="font-mono ent-field">Description</text>
+  <text x="356" y="1930" text-anchor="end" class="font-mono ent-type">string</text>
+  <line x1="76" y1="1937" x2="356" y2="1937" stroke="#26262a" stroke-width="1"/>
+  <text x="76" y="1951" class="font-sans ent-nav">nav: ContactInformations[]</text>
+  <g>
+    <rect x="446" y="1816" width="324" height="157" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 454 1816 H 762 Q 770 1816 770 1824 V 1850 H 446 V 1824 Q 446 1816 454 1816 Z" fill="#1a1a1d"/>
+    <line x1="446" y1="1850" x2="770" y2="1850" stroke="#26262a" stroke-width="1"/>
+    <text x="460" y="1838" class="font-sans card-title">ContactInformation</text>
+    <rect x="742" y="1824" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="751" y="1836.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+  </g>
+  <rect x="458" y="1855" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="470" y="1866" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="488" y="1867" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="758" y="1867" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="458" y="1888" class="font-mono ent-field">Position</text>
+  <text x="758" y="1888" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="458" y="1909" class="font-mono ent-field">Email</text>
+  <text x="758" y="1909" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="458" y="1930" class="font-mono ent-field">PhoneNumber</text>
+  <text x="758" y="1930" text-anchor="end" class="font-mono ent-type">string</text>
+  <rect x="458" y="1939" width="28" height="15" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="472" y="1950" text-anchor="middle" class="font-mono badge-txt" fill="#a1a1aa">SFK</text>
+  <text x="492" y="1951" class="font-mono ent-field">CinemaId</text>
+  <text x="758" y="1951" text-anchor="end" class="font-mono ent-type">int?</text>
+  <g>
+    <rect x="832" y="986" width="348" height="157" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 840 986 H 1172 Q 1180 986 1180 994 V 1020 H 832 V 994 Q 832 986 840 986 Z" fill="#1a1a1d"/>
+    <line x1="832" y1="1020" x2="1180" y2="1020" stroke="#26262a" stroke-width="1"/>
+    <text x="846" y="1008" class="font-sans card-title">MovieRental</text>
+    <rect x="1152" y="994" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1161" y="1006.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="1130" y="994" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1139" y="1006.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="844" y="1025" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="856" y="1036" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="874" y="1037" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="1168" y="1037" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="844" y="1046" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="856" y="1057" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="874" y="1058" class="font-mono ent-field">MovieId</text>
+  <text x="1168" y="1058" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="844" y="1079" class="font-mono ent-field">RentalStart</text>
+  <text x="1168" y="1079" text-anchor="end" class="font-mono ent-type">DateTime</text>
+  <text x="844" y="1100" class="font-mono ent-field">RentalEnd</text>
+  <text x="1168" y="1100" text-anchor="end" class="font-mono ent-type">DateTime</text>
+  <line x1="844" y1="1107" x2="1168" y2="1107" stroke="#26262a" stroke-width="1"/>
+  <text x="844" y="1121" class="font-sans ent-nav">nav: Movie</text>
+  <g>
+    <rect x="832" y="1246" width="348" height="178" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 840 1246 H 1172 Q 1180 1246 1180 1254 V 1280 H 832 V 1254 Q 832 1246 840 1246 Z" fill="#1a1a1d"/>
+    <line x1="832" y1="1280" x2="1180" y2="1280" stroke="#26262a" stroke-width="1"/>
+    <text x="846" y="1268" class="font-sans card-title">MovieScreening</text>
+    <rect x="1152" y="1254" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1161" y="1266.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="1130" y="1254" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1139" y="1266.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+    <rect x="1108" y="1254" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1117" y="1266.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="844" y="1285" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="856" y="1296" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="874" y="1297" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="1168" y="1297" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="844" y="1318" class="font-mono ent-field">Price</text>
+  <text x="1168" y="1318" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="844" y="1339" class="font-mono ent-field">BeginningTime</text>
+  <text x="1168" y="1339" text-anchor="end" class="font-mono ent-type">DateTime</text>
+  <rect x="844" y="1348" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="856" y="1359" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="874" y="1360" class="font-mono ent-field">MovieId</text>
+  <text x="1168" y="1360" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="844" y="1369" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="856" y="1380" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="874" y="1381" class="font-mono ent-field">HallId</text>
+  <text x="1168" y="1381" text-anchor="end" class="font-mono ent-type">int</text>
+  <line x1="844" y1="1388" x2="1168" y2="1388" stroke="#26262a" stroke-width="1"/>
+  <text x="844" y="1402" class="font-sans ent-nav">nav: Movie, Hall</text>
+  <g>
+    <rect x="1476" y="980" width="416" height="199" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1484 980 H 1884 Q 1892 980 1892 988 V 1014 H 1476 V 988 Q 1476 980 1484 980 Z" fill="#1a1a1d"/>
+    <line x1="1476" y1="1014" x2="1892" y2="1014" stroke="#26262a" stroke-width="1"/>
+    <text x="1490" y="1002" class="font-sans card-title">Viewer</text>
+    <rect x="1864" y="988" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1873" y="1000.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+    <rect x="1842" y="988" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1851" y="1000.5" text-anchor="middle" class="font-mono pill-txt">A</text>
+  </g>
+  <rect x="1488" y="1019" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="1500" y="1030" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="1518" y="1031" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="1880" y="1031" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="1488" y="1052" class="font-mono ent-field">Name</text>
+  <text x="1880" y="1052" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="1488" y="1073" class="font-mono ent-field">Surname</text>
+  <text x="1880" y="1073" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="1488" y="1094" class="font-mono ent-field">PhoneNumber</text>
+  <text x="1880" y="1094" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="1488" y="1115" class="font-mono ent-field">Birthday</text>
+  <text x="1880" y="1115" text-anchor="end" class="font-mono ent-type">DateTime</text>
+  <text x="1488" y="1136" class="font-mono ent-field">Email</text>
+  <text x="1880" y="1136" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="1488" y="1157" class="font-mono ent-field">Password</text>
+  <text x="1880" y="1157" text-anchor="end" class="font-mono ent-type">string</text>
+  <g>
+    <rect x="1252" y="1266" width="376" height="220" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1260 1266 H 1620 Q 1628 1266 1628 1274 V 1300 H 1252 V 1274 Q 1252 1266 1260 1266 Z" fill="#1a1a1d"/>
+    <line x1="1252" y1="1300" x2="1628" y2="1300" stroke="#26262a" stroke-width="1"/>
+    <text x="1266" y="1288" class="font-sans card-title">Reserved</text>
+    <rect x="1600" y="1274" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1609" y="1286.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+    <rect x="1578" y="1274" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1587" y="1286.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="1264" y="1305" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="1276" y="1316" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="1294" y="1317" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="1616" y="1317" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1264" y="1326" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1276" y="1337" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1294" y="1338" class="font-mono ent-field">MovieScreeningId</text>
+  <text x="1616" y="1338" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1264" y="1347" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1276" y="1358" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1294" y="1359" class="font-mono ent-field">ViewerId</text>
+  <text x="1616" y="1359" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1264" y="1368" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1276" y="1379" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1294" y="1380" class="font-mono ent-field">PlaceId</text>
+  <text x="1616" y="1380" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="1264" y="1401" class="font-mono ent-field">CreatedAt</text>
+  <text x="1616" y="1401" text-anchor="end" class="font-mono ent-type">DateTime</text>
+  <text x="1264" y="1422" class="font-mono ent-field">ExpireAt</text>
+  <text x="1616" y="1422" text-anchor="end" class="font-mono ent-type">DateTime</text>
+  <text x="1264" y="1443" class="font-mono ent-field">IsUsed</text>
+  <text x="1616" y="1443" text-anchor="end" class="font-mono ent-type">bool</text>
+  <line x1="1264" y1="1450" x2="1616" y2="1450" stroke="#26262a" stroke-width="1"/>
+  <text x="1264" y="1464" class="font-sans ent-nav">nav: MovieScreening, Viewer, Place</text>
+  <g>
+    <rect x="1732" y="1266" width="404" height="178" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1740 1266 H 2128 Q 2136 1266 2136 1274 V 1300 H 1732 V 1274 Q 1732 1266 1740 1266 Z" fill="#1a1a1d"/>
+    <line x1="1732" y1="1300" x2="2136" y2="1300" stroke="#26262a" stroke-width="1"/>
+    <text x="1746" y="1288" class="font-sans card-title">Ticket</text>
+    <rect x="2108" y="1274" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="2117" y="1286.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+  </g>
+  <rect x="1744" y="1305" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="1756" y="1316" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="1774" y="1317" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="2124" y="1317" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1744" y="1326" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1756" y="1337" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1774" y="1338" class="font-mono ent-field">ViewerId</text>
+  <text x="2124" y="1338" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1744" y="1347" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1756" y="1358" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1774" y="1359" class="font-mono ent-field">MovieScreeningId</text>
+  <text x="2124" y="1359" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1744" y="1368" width="28" height="15" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1758" y="1379" text-anchor="middle" class="font-mono badge-txt" fill="#a1a1aa">SFK</text>
+  <text x="1778" y="1380" class="font-mono ent-field">ReservedId (C#: ReserverdId*)</text>
+  <text x="2124" y="1380" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1744" y="1389" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1756" y="1400" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1774" y="1401" class="font-mono ent-field">SeatTypeId</text>
+  <text x="2124" y="1401" text-anchor="end" class="font-mono ent-type">int</text>
+  <line x1="1744" y1="1408" x2="2124" y2="1408" stroke="#26262a" stroke-width="1"/>
+  <text x="1744" y="1422" class="font-sans ent-nav">nav: Viewer, MovieScreening, Reserved, SeatType</text>
+  <g>
+    <rect x="832" y="1748" width="348" height="115" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 840 1748 H 1172 Q 1180 1748 1180 1756 V 1782 H 832 V 1756 Q 832 1748 840 1748 Z" fill="#1a1a1d"/>
+    <line x1="832" y1="1782" x2="1180" y2="1782" stroke="#26262a" stroke-width="1"/>
+    <text x="846" y="1770" class="font-sans card-title">Hall</text>
+    <rect x="1152" y="1756" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1161" y="1768.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="1130" y="1756" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1139" y="1768.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="844" y="1787" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="856" y="1798" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="874" y="1799" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="1168" y="1799" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="844" y="1820" class="font-mono ent-field">Number</text>
+  <text x="1168" y="1820" text-anchor="end" class="font-mono ent-type">int</text>
+  <line x1="844" y1="1827" x2="1168" y2="1827" stroke="#26262a" stroke-width="1"/>
+  <text x="844" y="1841" class="font-sans ent-nav">nav: Rows[]</text>
+  <g>
+    <rect x="1266" y="1712" width="348" height="178" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1274 1712 H 1606 Q 1614 1712 1614 1720 V 1746 H 1266 V 1720 Q 1266 1712 1274 1712 Z" fill="#1a1a1d"/>
+    <line x1="1266" y1="1746" x2="1614" y2="1746" stroke="#26262a" stroke-width="1"/>
+    <text x="1280" y="1734" class="font-sans card-title">Place</text>
+    <rect x="1586" y="1720" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1595" y="1732.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="1564" y="1720" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1573" y="1732.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+    <rect x="1542" y="1720" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1551" y="1732.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="1278" y="1751" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="1290" y="1762" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="1308" y="1763" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="1602" y="1763" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="1278" y="1784" class="font-mono ent-field">PlaceNumber</text>
+  <text x="1602" y="1784" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="1278" y="1805" class="font-mono ent-field">VIP</text>
+  <text x="1602" y="1805" text-anchor="end" class="font-mono ent-type">bool</text>
+  <rect x="1278" y="1814" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1290" y="1825" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1308" y="1826" class="font-mono ent-field">RowId</text>
+  <text x="1602" y="1826" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1278" y="1835" width="24" height="15" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1290" y="1846" text-anchor="middle" class="font-mono badge-txt" fill="#e4e4e7">FK</text>
+  <text x="1308" y="1847" class="font-mono ent-field">SeatTypeId</text>
+  <text x="1602" y="1847" text-anchor="end" class="font-mono ent-type">int</text>
+  <line x1="1278" y1="1854" x2="1602" y2="1854" stroke="#26262a" stroke-width="1"/>
+  <text x="1278" y="1868" class="font-sans ent-nav">nav: Row, SeatType</text>
+  <g>
+    <rect x="1266" y="1938" width="348" height="136" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1274 1938 H 1606 Q 1614 1938 1614 1946 V 1972 H 1266 V 1946 Q 1266 1938 1274 1938 Z" fill="#1a1a1d"/>
+    <line x1="1266" y1="1972" x2="1614" y2="1972" stroke="#26262a" stroke-width="1"/>
+    <text x="1280" y="1960" class="font-sans card-title">Row</text>
+    <rect x="1586" y="1946" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1595" y="1958.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="1564" y="1946" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1573" y="1958.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+    <rect x="1542" y="1946" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="1551" y="1958.5" text-anchor="middle" class="font-mono pill-txt">C</text>
+  </g>
+  <rect x="1278" y="1977" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="1290" y="1988" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="1308" y="1989" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="1602" y="1989" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="1278" y="2010" class="font-mono ent-field">RowNumber</text>
+  <text x="1602" y="2010" text-anchor="end" class="font-mono ent-type">int</text>
+  <rect x="1278" y="2019" width="28" height="15" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1292" y="2030" text-anchor="middle" class="font-mono badge-txt" fill="#a1a1aa">SFK</text>
+  <text x="1312" y="2031" class="font-mono ent-field">HallId</text>
+  <text x="1602" y="2031" text-anchor="end" class="font-mono ent-type">int?</text>
+  <line x1="1278" y1="2038" x2="1602" y2="2038" stroke="#26262a" stroke-width="1"/>
+  <text x="1278" y="2052" class="font-sans ent-nav">nav: Places[]</text>
+  <g>
+    <rect x="1756" y="1748" width="380" height="115" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 1764 1748 H 2128 Q 2136 1748 2136 1756 V 1782 H 1756 V 1756 Q 1756 1748 1764 1748 Z" fill="#1a1a1d"/>
+    <line x1="1756" y1="1782" x2="2136" y2="1782" stroke="#26262a" stroke-width="1"/>
+    <text x="1770" y="1770" class="font-sans card-title">SeatType</text>
+    <rect x="2108" y="1756" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="2117" y="1768.5" text-anchor="middle" class="font-mono pill-txt">S</text>
+    <rect x="2086" y="1756" width="18" height="18" rx="4" fill="#1e1e22" stroke="#3f3f46" stroke-width="0.9"/>
+    <text x="2095" y="1768.5" text-anchor="middle" class="font-mono pill-txt">O</text>
+  </g>
+  <rect x="1768" y="1787" width="24" height="15" rx="4" fill="#f4f4f5" stroke="#f4f4f5" stroke-width="0.9"/>
+  <text x="1780" y="1798" text-anchor="middle" class="font-mono badge-txt" fill="#0e0e10">PK</text>
+  <text x="1798" y="1799" class="font-mono ent-field" font-weight="600" fill="#f4f4f5">Id</text>
+  <text x="2124" y="1799" text-anchor="end" class="font-mono ent-type">int</text>
+  <text x="1768" y="1820" class="font-mono ent-field">Name</text>
+  <text x="2124" y="1820" text-anchor="end" class="font-mono ent-type">string</text>
+  <text x="1768" y="1841" class="font-mono ent-field">BasePriceModifier</text>
+  <text x="2124" y="1841" text-anchor="end" class="font-mono ent-type">double</text>
+  <g>
+    <rect x="2178" y="944" width="414" height="462" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 2186 944 H 2584 Q 2592 944 2592 952 V 990 H 2178 V 952 Q 2178 944 2186 944 Z" fill="#1a1a1d"/>
+    <line x1="2178" y1="990" x2="2592" y2="990" stroke="#26262a" stroke-width="1"/>
+    <text x="2192" y="964" class="font-sans card-title">DbSeeder (Startup Seeding)</text>
+    <text x="2192" y="980" class="font-mono card-sub">Models/DatabaseClasses/DbSeeder.cs</text>
+    <text x="2578" y="965" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">S</text>
+  </g>
+  <text x="2192" y="1010" class="font-sans item-txt">Executed on startup from <tspan class="font-mono" fill="#e4e4e7">Program.cs</tspan> (!EF.IsDesignTime).</text>
+  <text x="2192" y="1027" class="font-sans item-txt">Idempotently populates initial reference &amp; catalog data:</text>
+  <line x1="2192" y1="1038" x2="2578" y2="1038" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="1058" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">AgeLimits:</tspan> 12+, 16+, 18+</text>
+  <text x="2192" y="1078" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">Genres:</tspan> Action, Sci-Fi, Comedy, Horror</text>
+  <text x="2192" y="1098" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">Localisations:</tspan> Russian Dub, Original + Subtitles</text>
+  <text x="2192" y="1118" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">SeatTypes:</tspan> Standard (×1.0), VIP (×1.5)</text>
+  <text x="2192" y="1138" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">Cinema + ContactInformation:</tspan></text>
+  <text x="2204" y="1154" class="font-sans item-muted">"Cinema Lives Inside", Administrator contact entry</text>
+  <text x="2192" y="1176" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">Halls → Rows → Places:</tspan></text>
+  <text x="2204" y="1192" class="font-sans item-muted">Hall #1: 5 rows × 8 seats (row 5 is VIP)</text>
+  <text x="2204" y="1208" class="font-sans item-muted">Hall #2: 6 rows × 10 seats (row 6 is VIP)</text>
+  <text x="2192" y="1230" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">Movies:</tspan> 10 sample titles with local poster assets</text>
+  <text x="2192" y="1250" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">MovieRentals:</tspan> active window (−3 .. +30 days)</text>
+  <text x="2192" y="1270" class="font-sans item-txt">• <tspan font-weight="600" fill="#f4f4f5">MovieScreenings:</tspan> 3 scheduled showtimes per movie</text>
+  <text x="2204" y="1286" class="font-sans item-muted">(Hall #1: 350 / 400; Hall #2: 450)</text>
+  <line x1="2192" y1="1304" x2="2578" y2="1304" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="1324" class="font-sans item-muted">Note: Viewers, Reserveds, and Tickets are created</text>
+  <text x="2192" y="1340" class="font-sans item-muted">dynamically at runtime through user flows.</text>
+  <g>
+    <rect x="2178" y="1430" width="414" height="662" rx="8" fill="#131315" stroke="#26262a" stroke-width="1"/>
+    <path d="M 2186 1430 H 2584 Q 2592 1430 2592 1438 V 1476 H 2178 V 1438 Q 2178 1430 2186 1430 Z" fill="#1a1a1d"/>
+    <line x1="2178" y1="1476" x2="2592" y2="1476" stroke="#26262a" stroke-width="1"/>
+    <text x="2192" y="1450" class="font-sans card-title">Architectural &amp; Schema Notes</text>
+    <text x="2192" y="1466" class="font-mono card-sub">EF Core • Auth • Implementation Details</text>
+    <text x="2578" y="1451" text-anchor="end" class="font-mono" font-size="11" fill="#71717a">NOTES</text>
+  </g>
+  <text x="2192" y="1498" class="font-sans sec-head">01. Lazy Loading Proxies (EF Core 10)</text>
+  <text x="2192" y="1515" class="font-sans item-txt">Navigation properties are marked <tspan class="font-mono" fill="#e4e4e7">virtual</tspan>, allowing</text>
+  <text x="2192" y="1531" class="font-sans item-txt">Razor views (Main, Details, Partial) to resolve related</text>
+  <text x="2192" y="1547" class="font-sans item-txt">collections on demand via proxy interceptors.</text>
+
+  <line x1="2192" y1="1561" x2="2578" y2="1561" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="1580" class="font-sans sec-head">02. Shadow Foreign Keys (SFK)</text>
+  <text x="2192" y="1597" class="font-sans item-txt"><tspan class="font-mono" fill="#e4e4e7">ContactInformation</tspan>, <tspan class="font-mono" fill="#e4e4e7">Localisation</tspan>, and <tspan class="font-mono" fill="#e4e4e7">Row</tspan> omit</text>
+  <text x="2192" y="1613" class="font-sans item-txt">explicit FK properties — EF Core auto-generates</text>
+  <text x="2192" y="1629" class="font-sans item-txt">nullable <tspan class="font-mono" fill="#e4e4e7">CinemaId?</tspan>, <tspan class="font-mono" fill="#e4e4e7">MovieId?</tspan>, and <tspan class="font-mono" fill="#e4e4e7">HallId?</tspan> columns.</text>
+
+  <line x1="2192" y1="1643" x2="2578" y2="1643" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="1662" class="font-sans sec-head">03. Ticket.ReserverdId Schema Nuance (*)</text>
+  <text x="2192" y="1679" class="font-sans item-txt">The C# class defines a typo property <tspan class="font-mono" fill="#e4e4e7">ReserverdId</tspan>,</text>
+  <text x="2192" y="1695" class="font-sans item-txt">causing EF Core to create a separate shadow FK</text>
+  <text x="2192" y="1711" class="font-sans item-txt"><tspan class="font-mono" fill="#e4e4e7">ReservedId</tspan> for the <tspan class="font-mono" fill="#e4e4e7">Reserved</tspan> navigation.</text>
+
+  <line x1="2192" y1="1725" x2="2578" y2="1725" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="1744" class="font-sans sec-head">04. Many-to-Many Movie ↔ Genre</text>
+  <text x="2192" y="1761" class="font-sans item-txt">Configured explicitly in <tspan class="font-mono" fill="#e4e4e7">Database.OnModelCreating()</tspan></text>
+  <text x="2192" y="1777" class="font-sans item-txt">using join table <tspan class="font-mono" fill="#e4e4e7">MovieGenres(MovieId, GenreId)</tspan>.</text>
+
+  <line x1="2192" y1="1791" x2="2578" y2="1791" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="1810" class="font-sans sec-head">05. End-to-End Booking Flow</text>
+  <text x="2192" y="1827" class="font-sans item-txt">Details → AJAX seat map → GET CreateOrder →</text>
+  <text x="2192" y="1843" class="font-sans item-txt">conflict check (<tspan class="font-mono" fill="#e4e4e7">Reserved.IsUsed</tspan>) → persist <tspan class="font-mono" fill="#e4e4e7">Reserved</tspan></text>
+  <text x="2192" y="1859" class="font-sans item-txt">(15m TTL) + <tspan class="font-mono" fill="#e4e4e7">Ticket</tspan> → AES + QR + QuestPDF → Base64.</text>
+
+  <line x1="2192" y1="1873" x2="2578" y2="1873" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="1892" class="font-sans sec-head">06. Production Hardening Notes</text>
+  <text x="2192" y="1909" class="font-sans item-txt">• Local <tspan class="font-mono" fill="#e4e4e7">Viewer.Password</tspan> is stored without hashing</text>
+  <text x="2192" y="1925" class="font-sans item-txt">• <tspan class="font-mono" fill="#e4e4e7">TicketService</tspan> uses a zeroed 16-byte AES IV</text>
+  <text x="2192" y="1941" class="font-sans item-txt">• <tspan class="font-mono" fill="#e4e4e7">CreateOrder</tspan> mutates state over HTTP GET</text>
+  <text x="2192" y="1957" class="font-sans item-txt">• No background cleanup for expired <tspan class="font-mono" fill="#e4e4e7">Reserved.ExpireAt</tspan></text>
+  <text x="2192" y="1973" class="font-sans item-txt">• <tspan class="font-mono" fill="#e4e4e7">TicketService</tspan> instantiated via <tspan class="font-mono" fill="#e4e4e7">new</tspan> instead of DI</text>
+  <text x="2192" y="1989" class="font-sans item-txt">• <tspan class="font-mono" fill="#e4e4e7">Cinema</tspan> and <tspan class="font-mono" fill="#e4e4e7">Hall</tspan> have no direct FK relation</text>
+
+  <line x1="2192" y1="2008" x2="2578" y2="2008" stroke="#26262a" stroke-width="1"/>
+  <text x="2192" y="2028" class="font-mono item-muted">ER arrow convention:</text>
+  <text x="2192" y="2045" class="font-mono item-muted">  Child (FK, N) ────────▶ Parent (PK, 1)</text>
+  <text x="2192" y="2062" class="font-mono item-muted">  Required FKs use DeleteBehavior.Cascade</text>
+  <path d="M 260 1206 V 1152 H 208 V 1103" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="150.5" y="1142" width="115" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="208" y="1155" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 AgeLimitId</text>
+  <path d="M 580 1101 V 1152 H 460 V 1204" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="467.5" y="1142" width="135" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="535" y="1155" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 MovieId (SFK)</text>
+  <path d="M 208 1538 V 1482 H 290 V 1428" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="203" y="1472" width="94" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="250" y="1485" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 MovieId</text>
+  <path d="M 352 1598 H 420" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="368.5" y="1588" width="39" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="388" y="1601" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1</text>
+  <path d="M 446 1894 H 370" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="374" y="1884" width="66" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="407" y="1897" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 SFK</text>
+  <path d="M 832 1124 H 650 V 1264 H 566" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="679" y="1114" width="94" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="726" y="1127" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 MovieId</text>
+  <path d="M 832 1336 H 566" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="651" y="1326" width="94" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="698" y="1339" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 MovieId</text>
+  <path d="M 970 1424 V 1746" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="926.5" y="1554" width="87" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="970" y="1567" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 HallId</text>
+  <path d="M 1266 2006 H 1006 V 1865" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1030" y="1996" width="128" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1094" y="2009" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 HallId (SFK)</text>
+  <path d="M 1440 1890 V 1936" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1400" y="1902" width="80" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1440" y="1915" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 RowId</text>
+  <path d="M 1614 1806 H 1754" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1627.5" y="1796" width="115" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1685" y="1809" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 SeatTypeId</text>
+  <path d="M 1252 1344 H 1182" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1196.5" y="1334" width="39" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1216" y="1347" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1</text>
+  <path d="M 1440 1266 V 1222 H 1600 V 1181" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1465.5" y="1212" width="101" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1516" y="1225" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 ViewerId</text>
+  <path d="M 1440 1486 V 1710" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1393" y="1628" width="94" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1440" y="1641" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 PlaceId</text>
+  <path d="M 1934 1266 V 1222 H 1768 V 1181" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1803.5" y="1212" width="101" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1854" y="1225" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 ViewerId</text>
+  <path d="M 1732 1364 H 1630" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1647" y="1354" width="66" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1680" y="1367" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 SFK</text>
+  <path d="M 1946 1444 V 1746" fill="none" stroke="#71717a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1888.5" y="1582" width="115" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1946" y="1595" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 SeatTypeId</text>
+  <path d="M 1810 1444 V 1568 H 1094 V 1426" fill="none" stroke="#111114" stroke-width="6.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M 1810 1444 V 1568 H 1094 V 1426" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrDim)" marker-start="url(#dotDim)"/>
+  <rect x="1562" y="1558" width="156" height="19" rx="4" fill="#161618" stroke="#3f3f46" stroke-width="0.9"/>
+  <text x="1640" y="1571" text-anchor="middle" class="font-mono edge-lbl" fill="#d4d4d8">N:1 MovieScreeningId</text>
+</svg>
