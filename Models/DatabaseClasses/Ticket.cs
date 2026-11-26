@@ -2,7 +2,7 @@
 {
     public class Ticket
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public int ViewerId { get; set; }
         public virtual Viewer Viewer { get; set; }
         public int MovieScreeningId {  get; set; }

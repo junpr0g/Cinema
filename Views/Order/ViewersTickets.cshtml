@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Cinema.Models.DTOs.TicketDto>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var vipChecked = (Context.Request.Query["vip"] == "true");
+    var activeChecked = (Context.Request.Query["active"] == "true");
+}
+
+<form method="get" class="mb-3">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="vip" name="vip" value="true" @(vipChecked ? "checked=\"checked\"" : "") />
+        <label class="form-check-label text-white" for="vip">VIP</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="active" name="active" value="true" @(activeChecked ? "checked=\"checked\"" : "") />
+        <label class="form-check-label text-white" for="active">Active</label>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm ms-2">Фильтровать</button>
+    <a href="@Url.Action("ViewersTickets", "Order")" class="btn btn-secondary btn-sm ms-2">Сброс</a>
+</form>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning">
+        Билеты не найдены.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+
+                    <div class="card-body d-flex flex-column">
+
+                        <h5 class="card-title">
+                            @item.ticket.MovieScreening.Movie.Name
+                        </h5>
+
+                        <p class="card-text">
+                            Ряд: <strong>@item.place.Row.RowNumber</strong> Место: <strong>@item.place.PlaceNumber</strong>
+                            
+
+                            @if (item.place.VIP)
+                            {
+                                <span class="badge bg-warning text-dark ms-2">
+                                    VIP
+                                </span>
+                            }
+                        </p>
+
+                        <p class="card-text">
+                            Билет:
+                            <strong>@item.ticket.Id</strong>
+                        </p>
+
+                        @if (!string.IsNullOrEmpty(item.PdfBase64))
+                        {
+                            <div class="mb-3" style="height:360px;">
+                                <iframe src="data:application/pdf;base64,@item.PdfBase64"
+                                        style="width:100%; height:100%; border:0;"
+                                        title="ticket">
+                                </iframe>
+                            </div>
+
+                            <div class="mt-auto">
+                                <a class="btn btn-primary btn-sm"
+                                       href="data:application/pdf;base64,@item.PdfBase64"
+                                       download="ticket_@(item.ticket.Id).pdf">
+                                    Скачать PDF
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-secondary">
+                                PDF недоступен
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+}
